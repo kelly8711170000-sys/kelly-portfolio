@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PicCollage Redesign | Kelly Chiu</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          display: ['Bricolage Grotesque', 'Noto Sans TC', 'sans-serif'],
+          body: ['Noto Sans TC', 'Bricolage Grotesque', 'sans-serif'],
+        },
+        colors: {
+          ink: '#171717',
+          orange: '#F25623',
+          paper: '#DEDEDE',
+          slate: '#4D4D4D',
+        },
+      },
+    },
+  };
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Noto Sans TC', 'Bricolage Grotesque', sans-serif; }
+  .font-display { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; }
+
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.in-view { opacity: 1; transform: translateY(0); }
+
+  .stroke-num-dark {
+    -webkit-text-stroke: 1.5px rgba(222,222,222,0.4);
+    color: transparent;
+  }
+  .stroke-num-light {
+    -webkit-text-stroke: 1.5px rgba(23,23,23,0.3);
+    color: transparent;
+  }
+
+  #nav-indicator {
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    border-radius: 9999px;
+    background-color: #F25623;
+    opacity: 0;
+    transition: left 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                width 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.2s ease;
+    pointer-events: none;
+  }
+
+  .cursor-trail-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #F25623;
+    border-radius: 3px;
+    pointer-events: none;
+    z-index: 100;
+    will-change: transform;
+    transition: opacity 0.3s ease;
+  }
+
+  @keyframes float-slow {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+  }
+  .animate-float-slow { animation: float-slow 2.2s ease-in-out infinite; }
+
+  @keyframes float-image {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-16px); }
+  }
+  .animate-float-image { animation: float-image 5s ease-in-out infinite; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    #nav-indicator { transition: opacity 0.2s ease; }
+    .cursor-trail-dot { display: none; }
+    .animate-float-slow, .animate-float-image { animation: none; }
+    * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  }
+</style>
+</head>
+
+<body class="bg-paper text-ink font-body overflow-x-hidden antialiased">
+
+<!-- ============ NAV ============ -->
+<header class="fixed top-0 inset-x-0 z-50">
+  <div class="max-w-3xl mx-auto px-5 sm:px-8 pt-5">
+    <div class="relative flex items-center justify-between rounded-full bg-white/25 backdrop-blur-2xl backdrop-saturate-150 shadow-[0_8px_32px_rgba(23,23,23,0.08)] px-4 sm:px-6 py-2.5">
+
+      <a href="../index.html" class="group flex items-center gap-2 font-display font-bold tracking-tight text-base sm:text-lg shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">
+        <span class="w-8 h-8 rounded-full bg-ink text-paper flex items-center justify-center transition-transform duration-300 group-hover:-translate-x-1">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+        </span>
+        <span class="hidden sm:inline">回首頁</span>
+      </a>
+
+      <nav id="nav-track" class="relative flex items-center gap-1 sm:gap-2" aria-label="Primary">
+        <span id="nav-indicator" aria-hidden="true"></span>
+
+        <a href="#background" data-nav-item class="relative px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold font-display tracking-wide text-ink transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">背景</a>
+        <a href="#insight" data-nav-item class="relative px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold font-display tracking-wide text-ink transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">洞察</a>
+        <a href="#solution" data-nav-item class="relative px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold font-display tracking-wide text-ink transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">解法</a>
+        <a href="#impact" data-nav-item class="relative px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold font-display tracking-wide text-ink transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">成效</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main class="relative">
+
+<!-- ============ 01 專案背景 / HERO ============ -->
+<section id="background" class="relative max-w-6xl mx-auto px-5 sm:px-8 pt-40 pb-20 md:pt-52 md:pb-28 scroll-mt-24">
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center mb-16 md:mb-24">
+
+    <!-- Left: text -->
+    <div>
+      <span class="reveal inline-flex w-fit items-center rounded-full border border-ink/15 bg-white px-4 py-1.5 text-xs sm:text-sm font-display font-bold tracking-wide text-ink mb-6">
+        AAPD 競賽 8 強
+      </span>
+
+      <h1 class="reveal font-display text-5xl sm:text-6xl md:text-7xl font-bold leading-[1.05] tracking-tight mb-5">
+        <span class="text-orange">PicCollage</span> <span class="text-slate/40">Redesign</span>
+      </h1>
+
+      <p class="reveal font-display text-2xl sm:text-3xl font-bold text-ink leading-snug mb-3 max-w-lg">
+        從創作工具到情感連結平台
+      </p>
+      <p class="reveal font-body text-base text-slate max-w-lg mb-10">
+        以主動觸發與情感累積策略，重塑拼貼的長期價值
+      </p>
+
+      <div class="reveal grid grid-cols-3 gap-4 sm:gap-8 mb-10 max-w-lg">
+        <div>
+          <span class="block font-display font-bold text-xs tracking-wide text-slate/50 mb-1">Duration</span>
+          <span class="block font-display font-bold text-sm sm:text-base text-ink">2024.11–2024.12</span>
+        </div>
+        <div>
+          <span class="block font-display font-bold text-xs tracking-wide text-slate/50 mb-1">Role</span>
+          <span class="block font-display font-bold text-sm sm:text-base text-ink">UX/UI Designer</span>
+        </div>
+        <div>
+          <span class="block font-display font-bold text-xs tracking-wide text-slate/50 mb-1">Platform</span>
+          <span class="block font-display font-bold text-sm sm:text-base text-ink">APP</span>
+        </div>
+      </div>
+
+      <div class="reveal flex items-center gap-3 text-slate">
+        <span class="font-display text-xs font-bold tracking-[0.2em] uppercase">Scroll</span>
+        <span aria-hidden="true" class="w-9 h-9 rounded-full border border-ink/20 flex items-center justify-center animate-float-slow">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        </span>
+      </div>
+    </div>
+
+    <!-- Right: floating phone mockup -->
+    <div class="reveal">
+      <img src="PicCollage%20首圖.png" alt="PicCollage App 改版畫面：智慧風格選擇與每日拼貼提醒" class="w-full max-w-md mx-auto lg:max-w-none h-auto animate-float-image">
+    </div>
+
+  </div>
+
+  <div class="reveal rounded-[32px] overflow-hidden bg-ink text-paper p-10 sm:p-12 lg:p-16 flex flex-col shadow-[0_2px_24px_rgba(23,23,23,0.06)]">
+
+    <div class="flex items-baseline gap-5 mb-4">
+      <span class="stroke-num-dark font-display font-bold text-6xl sm:text-7xl leading-none">01</span>
+      <span class="font-display font-bold text-lg sm:text-xl text-[#DEDEDE]/40 leading-none">Project Background</span>
+    </div>
+    <h2 class="font-display text-3xl sm:text-4xl font-bold tracking-tight leading-snug mb-6 max-w-3xl">當產品進入成熟期，如何創造持續使用的理由？</h2>
+
+    <p class="font-body text-sm sm:text-base text-[#DEDEDE]/75 leading-relaxed mb-4 max-w-[52rem]">
+      PicCollage 是一款累積 2.6 億下載量的照片拼貼 App。隨著產品進入成熟期，創作效率已不再是成長瓶頸，真正的挑戰是如何讓使用者願意持續回訪。
+    </p>
+
+    <p class="font-body text-sm sm:text-base text-orange leading-relaxed mb-10 max-w-[52rem]">
+      目前，多數使用者僅在節慶、生日等特定情境使用 PicCollage，使產品容易被視為一次性工具。因此，本專案希望將產品定位從「完成一次創作」轉向「建立長期使用習慣」。
+    </p>
+
+    <!-- Product lifecycle curve device -->
+    <div class="w-full">
+      <div class="flex items-center gap-3 mb-8">
+        <span aria-hidden="true" class="w-2 h-2 rounded-sm bg-orange shrink-0"></span>
+        <span class="font-display font-bold text-xs sm:text-sm tracking-widest uppercase text-[#DEDEDE]/40 shrink-0">Product Lifecycle</span>
+        <span class="font-display font-bold text-base sm:text-lg text-paper shrink-0">產品生命週期：PicCollage 現況</span>
+        <span aria-hidden="true" class="flex-1 h-px bg-[#DEDEDE]/15"></span>
+      </div>
+      <div class="max-w-2xl mx-auto">
+      <svg viewBox="0 0 720 200" class="w-full h-auto" role="img" aria-label="產品生命週期曲線圖，標示 PicCollage 目前位於成熟期，若不介入將面臨衰退風險">
+        <line x1="0" y1="177" x2="720" y2="177" stroke="#DEDEDE" stroke-opacity="0.15" stroke-width="1.5"/>
+
+        <path d="M20,171 C110,171 140,49 258,43 C330,40 380,46 430,51 C478,55 518,62 558,69"
+              fill="none" stroke="#DEDEDE" stroke-width="4" stroke-linecap="round"/>
+
+        <path d="M558,69 C598,77 650,100 700,132"
+              fill="none" stroke="#DEDEDE" stroke-opacity="0.35" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 10"/>
+
+        <circle cx="430" cy="51" r="6" fill="#F25623"/>
+        <text x="430" y="27" text-anchor="middle" font-family="'Bricolage Grotesque','Noto Sans TC',sans-serif" font-size="15" fill="#F25623"><tspan font-weight="700">PicCollage 現在</tspan><tspan font-weight="500">・2.6 億下載量</tspan></text>
+
+        <circle cx="700" cy="132" r="9" fill="none" stroke="#DEDEDE" stroke-opacity="0.3" stroke-width="1.5"/>
+        <text x="700" y="136" text-anchor="middle" font-family="'Noto Sans TC',sans-serif" font-weight="700" font-size="12" fill="#DEDEDE" fill-opacity="0.5">?</text>
+
+        <text x="70" y="196" text-anchor="middle" font-family="'Noto Sans TC',sans-serif" font-size="14" fill="#DEDEDE" fill-opacity="0.45">導入期</text>
+        <text x="230" y="196" text-anchor="middle" font-family="'Noto Sans TC',sans-serif" font-size="14" fill="#DEDEDE" fill-opacity="0.45">成長期</text>
+        <text x="430" y="196" text-anchor="middle" font-family="'Noto Sans TC',sans-serif" font-size="14" fill="#DEDEDE" font-weight="700">成熟期</text>
+        <text x="640" y="196" text-anchor="middle" font-family="'Noto Sans TC',sans-serif" font-size="14" fill="#DEDEDE" fill-opacity="0.45">衰退期（風險）</text>
+      </svg>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ============ 02 商業目標 ============ -->
+<section id="goal" class="relative max-w-6xl mx-auto px-5 sm:px-8 py-20 md:py-28 scroll-mt-24">
+  <div class="mb-8">
+    <div class="flex items-baseline gap-3 mb-2">
+      <span class="stroke-num-light font-display font-bold text-6xl sm:text-7xl leading-none">02</span>
+      <span class="reveal font-display font-bold text-lg sm:text-xl text-slate/45 leading-none">Business Goal</span>
+    </div>
+    <h2 class="reveal font-display text-3xl sm:text-4xl font-bold tracking-tight leading-snug max-w-[56rem]">從一次性使用，到建立長期使用習慣</h2>
+  </div>
+
+  <p class="reveal font-body text-base sm:text-lg text-slate leading-relaxed max-w-2xl mb-10">
+    期望透過建立持續的創作動機，提升產品使用頻率，進而培養使用習慣與長期留存。
+  </p>
+
+  <div class="flex flex-col md:flex-row md:items-stretch gap-5 md:gap-0">
+    <div class="reveal rounded-[24px] bg-white p-7 md:flex-1 flex flex-col gap-4">
+      <span class="w-12 h-12 rounded-xl bg-orange/10 flex items-center justify-center text-orange shrink-0">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      </span>
+      <div>
+        <h3 class="font-display font-bold text-lg mb-2">提升使用頻率</h3>
+        <p class="text-sm text-slate leading-relaxed">提供持續的創作動機，增加日常使用機會。</p>
+      </div>
+    </div>
+
+    <div class="hidden md:flex items-center justify-center px-3 shrink-0">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate/30"><path d="m9 18 6-6-6-6"/></svg>
+    </div>
+
+    <div class="reveal rounded-[24px] bg-white p-7 md:flex-1 flex flex-col gap-4">
+      <span class="w-12 h-12 rounded-xl bg-orange/10 flex items-center justify-center text-orange shrink-0">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></svg>
+      </span>
+      <div>
+        <h3 class="font-display font-bold text-lg mb-2">提升留存率</h3>
+        <p class="text-sm text-slate leading-relaxed">透過正向體驗培養固定使用習慣。</p>
+      </div>
+    </div>
+
+    <div class="hidden md:flex items-center justify-center px-3 shrink-0">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate/30"><path d="m9 18 6-6-6-6"/></svg>
+    </div>
+
+    <div class="reveal rounded-[24px] bg-white p-7 md:flex-1 flex flex-col gap-4">
+      <span class="w-12 h-12 rounded-xl bg-orange/10 flex items-center justify-center text-orange shrink-0">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </span>
+      <div>
+        <h3 class="font-display font-bold text-lg mb-2">延長使用週期</h3>
+        <p class="text-sm text-slate leading-relaxed">建立高黏著度的核心用戶。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 使用者研究 ============ -->
+<section id="research" class="relative border-t-2 border-ink bg-ink text-paper py-20 md:py-28 scroll-mt-24">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8">
+
+    <div class="mb-8">
+      <div class="flex items-baseline gap-3 mb-2">
+        <span class="stroke-num-dark font-display font-bold text-6xl sm:text-7xl leading-none">03</span>
+        <span class="reveal font-display font-bold text-lg sm:text-xl text-[#DEDEDE]/35 leading-none">User Research</span>
+      </div>
+      <h2 class="reveal font-display text-3xl sm:text-4xl font-bold tracking-tight leading-snug max-w-3xl">找到真正驅動回訪的使用者需求</h2>
+    </div>
+
+    <div class="reveal flex items-center gap-3 mb-4">
+      <span aria-hidden="true" class="w-2 h-2 rounded-sm bg-orange shrink-0"></span>
+      <span class="font-display font-bold text-xs sm:text-sm tracking-widest uppercase text-orange">Method</span>
+    </div>
+
+    <p class="reveal font-body text-base sm:text-lg text-[#DEDEDE]/70 leading-relaxed max-w-[56rem] mb-6">
+      為了找出提升回訪率的切入點，我們針對近 3 個月內曾使用拼貼功能的用戶進行深度訪談，並以問卷交叉驗證。
+    </p>
+
+    <div class="reveal flex flex-wrap gap-3 mb-14 md:mb-16">
+      <span class="inline-flex items-center gap-2 rounded-full bg-paper/10 px-4 py-2 text-sm font-display font-bold"><span class="text-orange">10 場</span>深度訪談</span>
+      <span class="inline-flex items-center gap-2 rounded-full bg-paper/10 px-4 py-2 text-sm font-display font-bold"><span class="text-orange">60 份</span>問卷交叉驗證</span>
+    </div>
+
+    <div class="reveal flex items-center gap-3 mb-10">
+      <span aria-hidden="true" class="w-2 h-2 rounded-sm bg-orange shrink-0"></span>
+      <span class="font-display font-bold text-sm sm:text-base text-[#DEDEDE]/70 shrink-0">研究發現・使用者可分為兩大族群</span>
+      <span aria-hidden="true" class="flex-1 h-px bg-[#DEDEDE]/15"></span>
+    </div>
+
+    <div class="reveal grid grid-cols-2 gap-6 md:gap-10 mb-12 md:mb-14 max-w-2xl">
+      <div>
+        <span class="block font-display font-bold text-6xl sm:text-8xl text-orange leading-none">95%</span>
+        <span class="block mt-3 font-display font-bold text-base sm:text-lg">Connector</span>
+        <span class="block text-sm text-[#DEDEDE]/60 leading-relaxed mt-1">創作動機源於被朋友、家人看見與接納。需要簡單、隨時能維繫關係的互動方式，以及持續累積、分享作品的機會。</span>
+      </div>
+      <div>
+        <span class="block font-display font-bold text-6xl sm:text-8xl text-[#DEDEDE]/40 leading-none">5%</span>
+        <span class="block mt-3 font-display font-bold text-base sm:text-lg">Creator</span>
+        <span class="block text-sm text-[#DEDEDE]/60 leading-relaxed mt-1">追求自我滿足與創作成就感，使用頻率與情境較不固定。</span>
+      </div>
+    </div>
+
+    <div class="reveal rounded-[24px] bg-orange/5 border border-orange/10 p-7 sm:p-8">
+      <p class="font-body text-base sm:text-lg text-[#DEDEDE]/70 leading-relaxed">
+        由於 <span class="text-orange font-bold">Connector</span> 不僅占多數，其維繫關係的需求也具有<span class="text-orange font-bold">高頻且持續發生的特性</span>，更符合提升回訪率的商業目標，因此本專案聚焦於 <span class="text-orange font-bold">Connector</span> 作為主要目標族群。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 04 洞察 ============ -->
+<section id="insight" class="relative max-w-6xl mx-auto px-5 sm:px-8 py-20 md:py-28 scroll-mt-24">
+  <div class="mb-8">
+    <div class="flex items-baseline gap-3 mb-2">
+      <span class="stroke-num-light font-display font-bold text-6xl sm:text-7xl leading-none">04</span>
+      <span class="reveal font-display font-bold text-lg sm:text-xl text-slate/45 leading-none">Key Insights</span>
+    </div>
+    <h2 class="reveal font-display text-3xl sm:text-4xl font-bold tracking-tight leading-snug max-w-[56rem]">Connector 使用拼貼的核心，不是創作，而是連結</h2>
+  </div>
+
+  <p class="reveal font-body text-base sm:text-lg text-slate leading-relaxed max-w-2xl mb-10">
+    透過分析 Connector 的使用旅程，我們歸納出三個影響回訪率的關鍵機會：
+  </p>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
+
+    <div class="reveal rounded-[28px] bg-white p-7 flex flex-col gap-5">
+      <span class="inline-flex w-fit rounded-full bg-ink/5 px-3 py-1 text-xs font-display font-bold">拼貼前</span>
+      <div>
+        <span class="block text-[11px] font-display font-bold tracking-widest uppercase text-slate/60 mb-1">Pain Point</span>
+        <p class="text-sm text-ink leading-relaxed min-h-12">只有特定情境才會打開 App，缺乏持續創作動機。</p>
+      </div>
+      <div>
+        <span class="block text-[11px] font-display font-bold tracking-widest uppercase text-slate/60 mb-1">Insight</span>
+        <p class="text-sm text-ink leading-relaxed">需要一個值得每天回來的理由。</p>
+      </div>
+      <div>
+        <span class="block text-[11px] font-display font-bold tracking-widest uppercase text-orange mb-1">HMW</span>
+        <p class="text-sm font-bold text-ink leading-relaxed">如何提供持續的創作契機？</p>
+      </div>
+    </div>
+
+    <div class="reveal rounded-[28px] bg-white p-7 flex flex-col gap-5">
+      <span class="inline-flex w-fit rounded-full bg-ink/5 px-3 py-1 text-xs font-display font-bold">拼貼中</span>
+      <div>
+        <span class="block text-[11px] font-display font-bold tracking-widest uppercase text-slate/60 mb-1">Pain Point</span>
+        <p class="text-sm text-ink leading-relaxed min-h-12">希望快速完成拼貼，不想花太多時間編輯。</p>
+      </div>
+      <div>
+        <span class="block text-[11px] font-display font-bold tracking-widest uppercase text-slate/60 mb-1">Insight</span>
+        <p class="text-sm text-ink leading-relaxed">完成分享，比享受創作更重要。</p>
+      </div>
+      <div>
+        <span class="block text-[11px] font-display font-bold tracking-widest uppercase text-orange mb-1">HMW</span>
+        <p class="text-sm font-bold text-ink leading-relaxed">如何讓拼貼變得快速、低負擔？</p>
+      </div>
+    </div>
+
+    <div class="reveal rounded-[28px] bg-white p-7 flex flex-col gap-5">
+      <span class="inline-flex w-fit rounded-full bg-ink/5 px-3 py-1 text-xs font-display font-bold">拼貼後</span>
+      <div>
+        <span class="block text-[11px] font-display font-bold tracking-widest uppercase text-slate/60 mb-1">Pain Point</span>
+        <p class="text-sm text-ink leading-relaxed min-h-12">分享後的互動都留在外部平台，產品價值隨之中斷。</p>
+      </div>
+      <div>
+        <span class="block text-[11px] font-display font-bold tracking-widest uppercase text-slate/60 mb-1">Insight</span>
+        <p class="text-sm text-ink leading-relaxed">拼貼只是建立情感連結的媒介。</p>
+      </div>
+      <div>
+        <span class="block text-[11px] font-display font-bold tracking-widest uppercase text-orange mb-1">HMW</span>
+        <p class="text-sm font-bold text-ink leading-relaxed">如何讓情感連結持續累積在 PicCollage？</p>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="reveal font-body text-base sm:text-lg text-slate leading-relaxed max-w-[56rem]">
+    研究顯示，Connector 使用 PicCollage 的核心價值並非創作本身，而是透過拼貼完成分享與情感連結。因此產品機會在於降低創作門檻、創造更多使用契機，並延續分享後的關係互動。
+  </p>
+</section>
+
+<!-- ============ 05 解法 ============ -->
+<section id="solution" class="relative max-w-6xl mx-auto px-5 sm:px-8 py-20 md:py-28 scroll-mt-24">
+  <div class="mb-8">
+    <div class="flex items-baseline gap-3 mb-2">
+      <span class="stroke-num-light font-display font-bold text-6xl sm:text-7xl leading-none">05</span>
+      <span class="reveal font-display font-bold text-lg sm:text-xl text-slate/45 leading-none">Solution</span>
+    </div>
+    <h2 class="reveal font-display text-3xl sm:text-4xl font-bold tracking-tight leading-snug max-w-[56rem]">從拼貼工具，成為記錄生活的回憶平台</h2>
+  </div>
+
+  <p class="reveal font-body text-base sm:text-lg text-slate leading-relaxed max-w-[56rem] mb-8">
+    針對 Connector「想分享生活，但缺乏持續創作動機與時間成本高」的痛點，我們重新定義 PicCollage 的角色：
+  </p>
+
+  <blockquote class="reveal border-l-2 border-orange pl-6 sm:pl-8 max-w-2xl mb-10">
+    <p class="font-display font-bold text-2xl sm:text-3xl leading-snug tracking-tight">
+      希望我們不只是協助用戶完成拼貼，而是<span class="text-orange">主動記錄生活、累積情感回憶</span>。
+    </p>
+  </blockquote>
+
+  <p class="reveal font-body text-base sm:text-lg text-slate leading-relaxed max-w-2xl mb-8">
+    透過三項核心功能，降低創作門檻並創造持續回訪理由：
+  </p>
+
+  <div class="flex flex-col divide-y divide-ink/10 border-t border-ink/10">
+
+    <div class="reveal grid grid-cols-1 md:grid-cols-[18rem_1fr] gap-6 md:gap-10 items-center py-8 md:py-10">
+      <div>
+        <h3 class="font-display font-bold text-lg sm:text-xl leading-snug mb-2">1. AI 情境推播</h3>
+        <p class="text-sm text-slate leading-relaxed">根據使用者照片、使用偏好與重要時刻，主動生成高完成度拼貼草稿，降低整理與排版成本，創造回訪契機。</p>
+      </div>
+      <div class="rounded-[24px] p-6 md:p-8 flex justify-center">
+        <img src="C.png" alt="AI 情境推播：蒐集用戶關心時刻與偏好拼貼風格的三步驟畫面" class="h-[400px] w-auto max-w-full object-contain">
+      </div>
+    </div>
+
+    <div class="reveal grid grid-cols-1 md:grid-cols-[18rem_1fr] gap-6 md:gap-10 items-center py-8 md:py-10">
+      <div>
+        <h3 class="font-display font-bold text-lg sm:text-xl leading-snug mb-2">2. 智慧生成拼貼</h3>
+        <p class="text-sm text-slate leading-relaxed">上傳照片後，AI 自動依照片數量與內容生成版型與風格，降低面對空白畫布的心理負擔。</p>
+      </div>
+      <div class="rounded-[24px] p-6 md:p-8 flex justify-center">
+        <img src="B.png" alt="智慧生成拼貼：首頁與日常上傳照片動態生成拼貼畫面" class="h-[400px] w-auto max-w-full object-contain">
+      </div>
+    </div>
+
+    <div class="reveal grid grid-cols-1 md:grid-cols-[18rem_1fr] gap-6 md:gap-10 items-center py-8 md:py-10">
+      <div>
+        <h3 class="font-display font-bold text-lg sm:text-xl leading-snug mb-2">3. 回顧拼貼</h3>
+        <p class="text-sm text-slate leading-relaxed">將過去零散的拼貼作品依週、月、年度整理成回顧內容，累積長期情感價值。</p>
+      </div>
+      <div class="rounded-[24px] p-6 md:p-8 flex justify-center">
+        <img src="A.png" alt="回顧拼貼：選擇回顧範圍並調整排版的三步驟畫面" class="h-[400px] w-auto max-w-full object-contain">
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ 06 預期成效 ============ -->
+<section id="impact" class="relative border-t-2 border-ink bg-ink text-paper py-20 md:py-28 scroll-mt-24">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8">
+
+    <div class="mb-8">
+      <div class="flex items-baseline gap-3 mb-2">
+        <span class="stroke-num-dark font-display font-bold text-6xl sm:text-7xl leading-none">06</span>
+        <span class="reveal font-display font-bold text-lg sm:text-xl text-[#DEDEDE]/35 leading-none">Expected Impact</span>
+      </div>
+      <h2 class="reveal font-display text-3xl sm:text-4xl font-bold tracking-tight leading-snug max-w-3xl">提升回訪率與長期使用價值</h2>
+    </div>
+
+    <p class="reveal font-body text-base sm:text-lg text-[#DEDEDE]/70 leading-relaxed max-w-[56rem] mb-14 md:mb-16">
+      最終讓 PicCollage 從「一次性拼貼工具」轉型為陪伴使用者記錄生活、累積情感連結的回憶平台。
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+      <div class="reveal rounded-[24px] bg-paper/5 border border-paper/10 p-7 flex flex-col gap-5">
+        <span class="inline-flex w-fit rounded-full bg-paper/10 px-3 py-1 text-xs font-display font-bold text-paper">拼貼前</span>
+        <div>
+          <span class="block text-[11px] font-display font-bold tracking-widest uppercase text-[#DEDEDE]/50 mb-1">解決問題</span>
+          <p class="text-sm text-[#DEDEDE]/80 leading-relaxed">缺乏創作契機</p>
+        </div>
+        <div>
+          <span class="block text-[11px] font-display font-bold tracking-widest uppercase text-orange mb-1">帶來價值</span>
+          <p class="text-base font-bold text-paper leading-relaxed">主動提供回訪理由</p>
+        </div>
+      </div>
+
+      <div class="reveal rounded-[24px] bg-paper/5 border border-paper/10 p-7 flex flex-col gap-5">
+        <span class="inline-flex w-fit rounded-full bg-paper/10 px-3 py-1 text-xs font-display font-bold text-paper">拼貼中</span>
+        <div>
+          <span class="block text-[11px] font-display font-bold tracking-widest uppercase text-[#DEDEDE]/50 mb-1">解決問題</span>
+          <p class="text-sm text-[#DEDEDE]/80 leading-relaxed">編輯成本過高</p>
+        </div>
+        <div>
+          <span class="block text-[11px] font-display font-bold tracking-widest uppercase text-orange mb-1">帶來價值</span>
+          <p class="text-base font-bold text-paper leading-relaxed">降低創作與分享門檻</p>
+        </div>
+      </div>
+
+      <div class="reveal rounded-[24px] bg-paper/5 border border-paper/10 p-7 flex flex-col gap-5">
+        <span class="inline-flex w-fit rounded-full bg-paper/10 px-3 py-1 text-xs font-display font-bold text-paper">拼貼後</span>
+        <div>
+          <span class="block text-[11px] font-display font-bold tracking-widest uppercase text-[#DEDEDE]/50 mb-1">解決問題</span>
+          <p class="text-sm text-[#DEDEDE]/80 leading-relaxed">分享後價值中斷</p>
+        </div>
+        <div>
+          <span class="block text-[11px] font-display font-bold tracking-widest uppercase text-orange mb-1">帶來價值</span>
+          <p class="text-base font-bold text-paper leading-relaxed">累積長期回憶資產</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ 07 測試回饋 ============ -->
+<section id="feedback" class="relative bg-ink text-paper py-20 md:py-28 scroll-mt-24">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8">
+
+    <div class="mb-8">
+      <div class="flex items-baseline gap-3 mb-2">
+        <span class="stroke-num-dark font-display font-bold text-6xl sm:text-7xl leading-none">07</span>
+        <span class="reveal font-display font-bold text-lg sm:text-xl text-[#DEDEDE]/35 leading-none">User Testing</span>
+      </div>
+      <h2 class="reveal font-display text-3xl sm:text-4xl font-bold tracking-tight leading-snug max-w-3xl">使用者回饋與設計迭代</h2>
+    </div>
+
+    <p class="reveal font-body text-base sm:text-lg text-[#DEDEDE]/70 leading-relaxed mb-10">
+      測試回饋也印證了這個方向：
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <blockquote class="reveal rounded-[24px] bg-paper/5 border border-paper/10 p-7">
+        <p class="text-base leading-relaxed">「看到手機通知，APP 幫我排好旅遊照片，真的會想點開！」</p>
+      </blockquote>
+      <blockquote class="reveal rounded-[24px] bg-paper/5 border border-paper/10 p-7">
+        <p class="text-base leading-relaxed">「上傳照片就幫我排好，比自己做得快又好看」</p>
+      </blockquote>
+      <blockquote class="reveal rounded-[24px] bg-paper/5 border border-paper/10 p-7">
+        <p class="text-base leading-relaxed">「打開過去的拼貼，才發現累積了好多回憶，忍不住立刻分享」</p>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 08 商業模式 ============ -->
+<section id="business" class="relative max-w-6xl mx-auto px-5 sm:px-8 py-20 md:py-28 scroll-mt-24">
+  <div class="mb-10">
+    <div class="flex items-baseline gap-3 mb-2">
+      <span class="stroke-num-light font-display font-bold text-6xl sm:text-7xl leading-none">08</span>
+      <span class="reveal font-display font-bold text-lg sm:text-xl text-slate/45 leading-none">Business Model</span>
+    </div>
+    <h2 class="reveal font-display text-3xl sm:text-4xl font-bold tracking-tight leading-snug max-w-[56rem]">讓回憶累積帶動用戶回訪與分享</h2>
+  </div>
+
+  <p class="reveal font-display font-bold text-2xl sm:text-3xl md:text-4xl leading-snug tracking-tight max-w-[56rem]">
+    希望將 PicCollage 從「完成一次拼貼的工具」轉型為<span class="text-orange">「長期陪伴用戶記錄生活的平台」</span>。透過累積個人回憶與分享互動，提升使用者回訪動機，同時創造分享與吸引新用戶成長機會。
+  </p>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="max-w-6xl mx-auto px-5 sm:px-8 py-24 md:py-32">
+  <a href="../index.html#work" class="reveal group relative flex items-center justify-between gap-6 rounded-[36px] bg-orange text-paper px-8 sm:px-12 md:px-16 py-12 md:py-16 overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[10px_10px_0_0_rgba(23,23,23,0.9)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink">
+    <span class="font-display font-bold text-3xl sm:text-5xl md:text-6xl tracking-tight">回首頁看更多作品</span>
+    <span aria-hidden="true" class="shrink-0 w-14 h-14 sm:w-20 sm:h-20 rounded-full bg-ink text-orange flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
+    </span>
+  </a>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="border-t border-ink/15">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 py-10 flex flex-col sm:flex-row items-center justify-between gap-6">
+    <a href="../index.html" class="font-display font-bold tracking-tight text-lg">Kelly Chiu</a>
+
+    <nav class="flex items-center gap-6" aria-label="Footer">
+      <a href="#background" class="text-sm font-bold font-display text-slate hover:text-ink transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">背景</a>
+      <a href="#solution" class="text-sm font-bold font-display text-slate hover:text-ink transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">解法</a>
+      <a href="#impact" class="text-sm font-bold font-display text-slate hover:text-ink transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">成效</a>
+    </nav>
+
+    <span class="text-xs font-medium text-slate">&copy; <span id="year"></span> Kelly Chiu</span>
+  </div>
+</footer>
+
+<div class="cursor-trail-dot" data-trail data-opacity="0.85" style="width:10px;height:10px;opacity:0"></div>
+<div class="cursor-trail-dot" data-trail data-opacity="0.55" style="width:8px;height:8px;opacity:0"></div>
+<div class="cursor-trail-dot" data-trail data-opacity="0.32" style="width:6px;height:6px;opacity:0"></div>
+<div class="cursor-trail-dot" data-trail data-opacity="0.16" style="width:5px;height:5px;opacity:0"></div>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const revealEls = document.querySelectorAll('.reveal');
+
+  if (prefersReduced) {
+    revealEls.forEach(el => el.classList.add('in-view'));
+  } else {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(el => io.observe(el));
+  }
+
+  // Nav sliding hover indicator
+  (function () {
+    const track = document.getElementById('nav-track');
+    const indicator = document.getElementById('nav-indicator');
+    const items = track.querySelectorAll('[data-nav-item]');
+
+    function moveIndicator(el) {
+      const trackRect = track.getBoundingClientRect();
+      const rect = el.getBoundingClientRect();
+      indicator.style.left = (rect.left - trackRect.left) + 'px';
+      indicator.style.width = rect.width + 'px';
+      indicator.style.opacity = '1';
+    }
+
+    items.forEach((item) => {
+      item.addEventListener('mouseenter', () => moveIndicator(item));
+      item.addEventListener('focus', () => moveIndicator(item));
+    });
+    track.addEventListener('mouseleave', () => { indicator.style.opacity = '0'; });
+  })();
+
+  // Fading orange cursor trail (fine pointer + no reduced motion only)
+  (function () {
+    const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    if (!canHover || prefersReduced) return;
+
+    const dots = Array.from(document.querySelectorAll('[data-trail]')).map((el) => ({
+      el, x: 0, y: 0,
+    }));
+    const mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+    let started = false;
+
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      if (!started) {
+        started = true;
+        dots.forEach((d) => {
+          d.x = mouse.x;
+          d.y = mouse.y;
+          d.el.style.opacity = d.el.dataset.opacity;
+        });
+      }
+    });
+
+    function tick() {
+      let targetX = mouse.x;
+      let targetY = mouse.y;
+      dots.forEach((d, i) => {
+        const ease = 0.32 - i * 0.05;
+        d.x += (targetX - d.x) * ease;
+        d.y += (targetY - d.y) * ease;
+        const size = d.el.offsetWidth;
+        d.el.style.transform = `translate(${d.x - size / 2}px, ${d.y - size / 2}px)`;
+        targetX = d.x;
+        targetY = d.y;
+      });
+      requestAnimationFrame(tick);
+    }
+    tick();
+  })();
+</script>
+
+</body>
+</html>
