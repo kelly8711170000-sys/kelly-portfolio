@@ -105,17 +105,8 @@
         <span class="w-8 h-8 rounded-full bg-ink text-paper flex items-center justify-center transition-transform duration-300 group-hover:-translate-x-1">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
         </span>
-        <span class="hidden sm:inline">回首頁</span>
+        <span>Back</span>
       </a>
-
-      <nav id="nav-track" class="relative flex items-center gap-1 sm:gap-2" aria-label="Primary">
-        <span id="nav-indicator" aria-hidden="true"></span>
-
-        <a href="#background" data-nav-item class="relative px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold font-display tracking-wide text-ink transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">背景</a>
-        <a href="#insight" data-nav-item class="relative px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold font-display tracking-wide text-ink transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">洞察</a>
-        <a href="#solution" data-nav-item class="relative px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold font-display tracking-wide text-ink transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">解法</a>
-        <a href="#impact" data-nav-item class="relative px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold font-display tracking-wide text-ink transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">成效</a>
-      </nav>
     </div>
   </div>
 </header>
@@ -192,11 +183,11 @@
 
     <!-- Product lifecycle curve device -->
     <div class="w-full">
-      <div class="flex items-center gap-3 mb-8">
+      <div class="flex flex-wrap items-center gap-x-3 gap-y-2 mb-8">
         <span aria-hidden="true" class="w-2 h-2 rounded-sm bg-orange shrink-0"></span>
         <span class="font-display font-bold text-xs sm:text-sm tracking-widest uppercase text-[#DEDEDE]/40 shrink-0">Product Lifecycle</span>
-        <span class="font-display font-bold text-base sm:text-lg text-paper shrink-0">產品生命週期：PicCollage 現況</span>
-        <span aria-hidden="true" class="flex-1 h-px bg-[#DEDEDE]/15"></span>
+        <span class="font-display font-bold text-base sm:text-lg text-paper">產品生命週期：PicCollage 現況</span>
+        <span aria-hidden="true" class="hidden sm:block flex-1 h-px bg-[#DEDEDE]/15"></span>
       </div>
       <div class="max-w-2xl mx-auto">
       <svg viewBox="0 0 720 200" class="w-full h-auto" role="img" aria-label="產品生命週期曲線圖，標示 PicCollage 目前位於成熟期，若不介入將面臨衰退風險">
@@ -316,12 +307,12 @@
     <div class="reveal grid grid-cols-2 gap-6 md:gap-10 mb-12 md:mb-14 max-w-2xl">
       <div>
         <span class="block font-display font-bold text-6xl sm:text-8xl text-orange leading-none">95%</span>
-        <span class="block mt-3 font-display font-bold text-base sm:text-lg">Connector</span>
+        <span class="block mt-3 font-display font-bold text-base sm:text-lg">Connector 關係聯繫者</span>
         <span class="block text-sm text-[#DEDEDE]/60 leading-relaxed mt-1">創作動機源於被朋友、家人看見與接納。需要簡單、隨時能維繫關係的互動方式，以及持續累積、分享作品的機會。</span>
       </div>
       <div>
         <span class="block font-display font-bold text-6xl sm:text-8xl text-[#DEDEDE]/40 leading-none">5%</span>
-        <span class="block mt-3 font-display font-bold text-base sm:text-lg">Creator</span>
+        <span class="block mt-3 font-display font-bold text-base sm:text-lg">Creator 創作者</span>
         <span class="block text-sm text-[#DEDEDE]/60 leading-relaxed mt-1">追求自我滿足與創作成就感，使用頻率與情境較不固定。</span>
       </div>
     </div>
@@ -490,10 +481,10 @@
     </p>
 
     <div id="testimonial-carousel" class="reveal">
-      <div id="testimonial-viewport" class="overflow-hidden -mx-5 px-5 sm:mx-0 sm:px-0">
-        <div id="testimonial-track" class="flex items-stretch gap-5 transition-transform duration-500 ease-out">
+      <div id="testimonial-viewport" class="overflow-hidden">
+        <div id="testimonial-track" class="flex items-stretch gap-5">
 
-          <blockquote data-slide class="shrink-0 min-w-0 w-full sm:w-[52%] rounded-[28px] border px-8 py-6 sm:px-10 sm:py-7 flex flex-col justify-between transition-all duration-500 ease-out">
+          <blockquote data-slide class="shrink-0 min-w-0 w-[82%] sm:w-[62%] lg:w-[50%] rounded-[28px] border px-8 py-6 sm:px-10 sm:py-7 flex flex-col justify-between transition-all duration-500 ease-out">
             <div>
               <span aria-hidden="true" class="block font-display text-3xl text-orange/70 leading-none mb-3">&ldquo;</span>
               <p class="font-display text-sm sm:text-base leading-relaxed tracking-tight"><span class="text-orange">看到手機通知，APP 幫我排好旅遊照片，真的會想點開！</span>平常根本不會特地打開來整理，通知一來就順手點進去看看，滑一下就分享出去了，完全不用花力氣。</p>
@@ -504,7 +495,7 @@
             </footer>
           </blockquote>
 
-          <blockquote data-slide class="shrink-0 min-w-0 w-full sm:w-[52%] rounded-[28px] border px-8 py-6 sm:px-10 sm:py-7 flex flex-col justify-between transition-all duration-500 ease-out">
+          <blockquote data-slide class="shrink-0 min-w-0 w-[82%] sm:w-[62%] lg:w-[50%] rounded-[28px] border px-8 py-6 sm:px-10 sm:py-7 flex flex-col justify-between transition-all duration-500 ease-out">
             <div>
               <span aria-hidden="true" class="block font-display text-3xl text-orange/70 leading-none mb-3">&ldquo;</span>
               <p class="font-display text-sm sm:text-base leading-relaxed tracking-tight"><span class="text-orange">上傳照片就幫我排好，比自己做得快又好看。</span>以前自己排版要選版型、調位置，弄一次要花快十分鐘，現在丟照片進去幾秒就有成品，真的省超多時間。</p>
@@ -515,7 +506,7 @@
             </footer>
           </blockquote>
 
-          <blockquote data-slide class="shrink-0 min-w-0 w-full sm:w-[52%] rounded-[28px] border px-8 py-6 sm:px-10 sm:py-7 flex flex-col justify-between transition-all duration-500 ease-out">
+          <blockquote data-slide class="shrink-0 min-w-0 w-[82%] sm:w-[62%] lg:w-[50%] rounded-[28px] border px-8 py-6 sm:px-10 sm:py-7 flex flex-col justify-between transition-all duration-500 ease-out">
             <div>
               <span aria-hidden="true" class="block font-display text-3xl text-orange/70 leading-none mb-3">&ldquo;</span>
               <p class="font-display text-sm sm:text-base leading-relaxed tracking-tight">打開過去的拼貼，<span class="text-orange">才發現累積了好多回憶，忍不住立刻分享。</span>原本只是想找一張舊照片，結果滑著滑著看到好幾個月前的拼貼，那種一次看到整段回憶的感覺很療癒。</p>
@@ -554,6 +545,137 @@
   <p class="reveal font-body text-base sm:text-lg text-slate leading-relaxed max-w-[56rem]">
     希望將 PicCollage 從「完成一次拼貼的工具」轉型為<span class="font-bold text-orange">「長期陪伴用戶記錄生活的平台」</span>。透過累積個人回憶與分享互動，提升使用者回訪動機，同時創造分享與吸引新用戶成長機會。
   </p>
+
+  <div class="reveal mt-14 md:mt-16 hidden md:flex flex-col items-center">
+    <span class="inline-flex w-fit items-center rounded-full bg-ink/5 px-4 py-1.5 text-xs sm:text-sm font-display font-bold tracking-wide text-ink/70 mb-2">內部留存｜建立持續使用習慣</span>
+
+    <svg viewBox="0 0 1040 700" class="w-full max-w-4xl h-auto" role="img" aria-label="循環圖：由內部留存（提升使用頻率、提升留存率、延長使用週期）延伸至外部成長（放大分享動機、創造社交擴散、帶動用戶加入）的持續循環">
+      <defs>
+        <linearGradient id="loopRingGradient" gradientUnits="userSpaceOnUse" x1="520" y1="180" x2="520" y2="520">
+          <stop offset="0%" stop-color="#9CA3AF"/>
+          <stop offset="100%" stop-color="#F25623"/>
+        </linearGradient>
+      </defs>
+
+      <circle cx="520" cy="350" r="170" fill="none" stroke="url(#loopRingGradient)" stroke-width="4"/>
+
+      <!-- connector lines -->
+      <line x1="435" y1="203" x2="395" y2="203" stroke="#171717" stroke-opacity="0.25" stroke-width="1.5"/>
+      <line x1="605" y1="203" x2="645" y2="203" stroke="#171717" stroke-opacity="0.25" stroke-width="1.5"/>
+      <line x1="690" y1="350" x2="730" y2="350" stroke="#171717" stroke-opacity="0.25" stroke-width="1.5"/>
+      <line x1="605" y1="497" x2="645" y2="497" stroke="#F25623" stroke-opacity="0.4" stroke-width="1.5"/>
+      <line x1="435" y1="497" x2="395" y2="497" stroke="#F25623" stroke-opacity="0.4" stroke-width="1.5"/>
+      <line x1="350" y1="350" x2="310" y2="350" stroke="#F25623" stroke-opacity="0.4" stroke-width="1.5"/>
+
+      <!-- node 1: 提升使用頻率 (upper-left, label left) -->
+      <circle cx="435" cy="203" r="7" fill="#F25623" stroke="#DEDEDE" stroke-width="4"/>
+      <text x="385" y="199" text-anchor="end" font-family="'Bricolage Grotesque','Noto Sans TC',sans-serif" font-weight="700" font-size="16" fill="#171717">提升使用頻率</text>
+      <text x="385" y="221" text-anchor="end" font-family="'Noto Sans TC',sans-serif" font-size="13" fill="#4D4D4D">AI 情境推播，適時提醒值得記錄的時刻。</text>
+
+      <!-- node 2: 提升留存率 (upper-right, label right) -->
+      <circle cx="605" cy="203" r="7" fill="#F25623" stroke="#DEDEDE" stroke-width="4"/>
+      <text x="655" y="199" text-anchor="start" font-family="'Bricolage Grotesque','Noto Sans TC',sans-serif" font-weight="700" font-size="16" fill="#171717">提升留存率</text>
+      <text x="655" y="221" text-anchor="start" font-family="'Noto Sans TC',sans-serif" font-size="13" fill="#4D4D4D">智慧生成拼貼，降低創作門檻。</text>
+
+      <!-- node 3: 延長使用週期 (right, label right) -->
+      <circle cx="690" cy="350" r="7" fill="#F25623" stroke="#DEDEDE" stroke-width="4"/>
+      <text x="740" y="346" text-anchor="start" font-family="'Bricolage Grotesque','Noto Sans TC',sans-serif" font-weight="700" font-size="16" fill="#171717">延長使用週期</text>
+      <text x="740" y="368" text-anchor="start" font-family="'Noto Sans TC',sans-serif" font-size="13" fill="#4D4D4D">回顧過往拼貼，累積屬於自己的生活紀錄。</text>
+
+      <!-- node 4: 放大分享動機 (lower-right, label right) -->
+      <circle cx="605" cy="497" r="7" fill="#F25623" stroke="#DEDEDE" stroke-width="4"/>
+      <text x="655" y="493" text-anchor="start" font-family="'Bricolage Grotesque','Noto Sans TC',sans-serif" font-weight="700" font-size="16" fill="#171717">放大分享動機</text>
+      <text x="655" y="515" text-anchor="start" font-family="'Noto Sans TC',sans-serif" font-size="13" fill="#4D4D4D">回顧拼貼讓分享更有故事與情感。</text>
+
+      <!-- node 5: 創造社交擴散 (lower-left, label left) -->
+      <circle cx="435" cy="497" r="7" fill="#F25623" stroke="#DEDEDE" stroke-width="4"/>
+      <text x="385" y="493" text-anchor="end" font-family="'Bricolage Grotesque','Noto Sans TC',sans-serif" font-weight="700" font-size="16" fill="#171717">創造社交擴散</text>
+      <text x="385" y="515" text-anchor="end" font-family="'Noto Sans TC',sans-serif" font-size="13" fill="#4D4D4D">引發朋友共鳴與互動。</text>
+
+      <!-- node 6: 帶動用戶加入 (left, label left) -->
+      <circle cx="350" cy="350" r="7" fill="#F25623" stroke="#DEDEDE" stroke-width="4"/>
+      <text x="300" y="346" text-anchor="end" font-family="'Bricolage Grotesque','Noto Sans TC',sans-serif" font-weight="700" font-size="16" fill="#171717">帶動用戶加入</text>
+      <text x="300" y="368" text-anchor="end" font-family="'Noto Sans TC',sans-serif" font-size="13" fill="#4D4D4D">增加社群分享與自然傳播。</text>
+    </svg>
+
+    <span class="inline-flex w-fit items-center rounded-full bg-orange px-4 py-1.5 text-xs sm:text-sm font-display font-bold tracking-wide text-paper mt-2">外部成長｜讓分享帶來更多使用者</span>
+
+    <div class="flex flex-col sm:flex-row gap-2 sm:gap-10 mt-6 text-center">
+      <p class="font-display font-bold text-sm sm:text-base text-ink leading-relaxed flex items-center gap-2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="text-[#9CA3AF] shrink-0"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        增加再次開啟 App 的理由，逐漸養成使用習慣。
+      </p>
+      <p class="font-display font-bold text-sm sm:text-base text-orange leading-relaxed flex items-center gap-2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="text-orange shrink-0"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        吸引更多人認識並開始使用 PicCollage。
+      </p>
+    </div>
+  </div>
+
+  <!-- Mobile fallback: the radial label layout doesn't reflow at narrow widths -->
+  <div class="reveal mt-12 md:hidden flex flex-col gap-8">
+    <div>
+      <span class="inline-flex w-fit items-center rounded-full bg-ink/5 px-4 py-1.5 text-xs font-display font-bold tracking-wide text-ink/70 mb-4">內部留存｜建立持續使用習慣</span>
+      <div class="flex flex-col gap-3">
+        <div class="rounded-2xl border border-ink/10 bg-white p-4 flex items-start gap-3">
+          <span aria-hidden="true" class="w-2 h-2 rounded-full bg-orange shrink-0 mt-2"></span>
+          <div>
+            <p class="font-display font-bold text-sm mb-1">提升使用頻率</p>
+            <p class="text-sm text-slate">AI 情境推播，適時提醒值得記錄的時刻。</p>
+          </div>
+        </div>
+        <div class="rounded-2xl border border-ink/10 bg-white p-4 flex items-start gap-3">
+          <span aria-hidden="true" class="w-2 h-2 rounded-full bg-orange shrink-0 mt-2"></span>
+          <div>
+            <p class="font-display font-bold text-sm mb-1">提升留存率</p>
+            <p class="text-sm text-slate">智慧生成拼貼，降低創作門檻。</p>
+          </div>
+        </div>
+        <div class="rounded-2xl border border-ink/10 bg-white p-4 flex items-start gap-3">
+          <span aria-hidden="true" class="w-2 h-2 rounded-full bg-orange shrink-0 mt-2"></span>
+          <div>
+            <p class="font-display font-bold text-sm mb-1">延長使用週期</p>
+            <p class="text-sm text-slate">回顧過往拼貼，累積屬於自己的生活紀錄。</p>
+          </div>
+        </div>
+      </div>
+      <p class="font-display font-bold text-sm text-ink leading-relaxed mt-4 flex items-center gap-2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="text-[#9CA3AF] shrink-0"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        增加再次開啟 App 的理由，逐漸養成使用習慣。
+      </p>
+    </div>
+
+    <div>
+      <span class="inline-flex w-fit items-center rounded-full bg-orange px-4 py-1.5 text-xs font-display font-bold tracking-wide text-paper mb-4">外部成長｜讓分享帶來更多使用者</span>
+      <div class="flex flex-col gap-3">
+        <div class="rounded-2xl bg-orange p-4 flex items-start gap-3">
+          <span aria-hidden="true" class="w-2 h-2 rounded-full bg-paper shrink-0 mt-2"></span>
+          <div>
+            <p class="font-display font-bold text-sm text-paper mb-1">放大分享動機</p>
+            <p class="text-sm text-paper/85">回顧拼貼讓分享更有故事與情感。</p>
+          </div>
+        </div>
+        <div class="rounded-2xl bg-orange p-4 flex items-start gap-3">
+          <span aria-hidden="true" class="w-2 h-2 rounded-full bg-paper shrink-0 mt-2"></span>
+          <div>
+            <p class="font-display font-bold text-sm text-paper mb-1">創造社交擴散</p>
+            <p class="text-sm text-paper/85">引發朋友共鳴與互動。</p>
+          </div>
+        </div>
+        <div class="rounded-2xl bg-orange p-4 flex items-start gap-3">
+          <span aria-hidden="true" class="w-2 h-2 rounded-full bg-paper shrink-0 mt-2"></span>
+          <div>
+            <p class="font-display font-bold text-sm text-paper mb-1">帶動用戶加入</p>
+            <p class="text-sm text-paper/85">增加社群分享與自然傳播。</p>
+          </div>
+        </div>
+      </div>
+      <p class="font-display font-bold text-sm text-orange leading-relaxed mt-4 flex items-center gap-2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="text-orange shrink-0"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        吸引更多人認識並開始使用 PicCollage。
+      </p>
+    </div>
+  </div>
 </section>
 
 <!-- ============ CTA ============ -->
@@ -611,6 +733,7 @@
   // Nav sliding hover indicator
   (function () {
     const track = document.getElementById('nav-track');
+    if (!track) return;
     const indicator = document.getElementById('nav-indicator');
     const items = track.querySelectorAll('[data-nav-item]');
 
@@ -707,13 +830,14 @@
     });
   })();
 
-  // Testimonial carousel: prev/next buttons loop through user feedback quotes,
-  // with a cloned slide at each end so there's always a peek on both sides
+  // Testimonial carousel: A/B/C loop with a cloned slide at each end so there's
+  // always a peek on both sides, centered active card, autoplay every 5s.
   (function () {
     const carousel = document.getElementById('testimonial-carousel');
     if (!carousel) return;
 
     const track = document.getElementById('testimonial-track');
+    const viewport = document.getElementById('testimonial-viewport');
     const realSlides = Array.from(track.querySelectorAll('[data-slide]'));
     const count = realSlides.length;
     if (count === 0) return;
@@ -728,24 +852,43 @@
     track.appendChild(headClone);
 
     const slides = Array.from(track.children); // [tailClone, ...real, headClone]
-    let index = 1; // start on the first real slide
+    let index = 1; // start on the first real slide (A)
 
-    const viewport = document.getElementById('testimonial-viewport');
     const prevBtn = carousel.querySelector('[data-carousel-prev]');
     const nextBtn = carousel.querySelector('[data-carousel-next]');
+    const GAP = 20; // matches gap-5
+
+    // Mirrors the slide's own w-[82%] sm:w-[62%] lg:w-[50%] classes so the
+    // centering math always matches what's actually on screen at this width.
+    function currentRatio() {
+      if (window.matchMedia('(min-width: 1024px)').matches) return 0.5;
+      if (window.matchMedia('(min-width: 640px)').matches) return 0.62;
+      return 0.82;
+    }
 
     function render(animate) {
-      track.style.transition = animate ? '' : 'none';
-      const gap = 20; // matches gap-5
-      // Derive slide width from the CSS ratio (sm:w-[52%] / w-full below sm) instead of
-      // measuring a slide's own rect: long, hard-to-wrap quotes can make an individual
-      // slide's measured width drift from the others, which threw the centering math off.
+      if (!animate) {
+        // Disabling the transition and moving the track in the same tick isn't enough:
+        // browsers can coalesce the two style changes and still animate the "jump" using
+        // the old duration. Forcing a reflow commits "no transition" before the jump.
+        track.style.transition = 'none';
+        void track.offsetHeight;
+      } else {
+        track.style.transition = '';
+      }
       const viewportWidth = viewport.getBoundingClientRect().width;
-      const ratio = window.matchMedia('(min-width: 640px)').matches ? 0.52 : 1;
-      const slideWidth = viewportWidth * ratio;
-      const offset = slideWidth + gap;
+      const slideWidth = viewportWidth * currentRatio();
+      const offset = slideWidth + GAP;
       const centerInset = (viewportWidth - slideWidth) / 2;
       track.style.transform = `translateX(${centerInset - index * offset}px)`;
+
+      // Set the width directly rather than trusting the responsive w-[…] classes: once
+      // this script starts toggling classes on these nodes, the Tailwind CDN runtime can
+      // re-inject rules in an order where the wrong breakpoint's width wins the cascade.
+      // An inline style always beats a class, so this keeps JS and the on-screen size in sync.
+      slides.forEach((s) => {
+        s.style.width = `${slideWidth}px`;
+      });
 
       slides.forEach((s, i) => {
         const active = i === index;
