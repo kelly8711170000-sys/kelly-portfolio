@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>國泰人壽 hub 營運數據 | Kelly Chiu</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          display: ['Bricolage Grotesque', 'Noto Sans TC', 'sans-serif'],
+          body: ['Noto Sans TC', 'Bricolage Grotesque', 'sans-serif'],
+        },
+        colors: {
+          ink: '#171717',
+          orange: '#F25623',
+          paper: '#DEDEDE',
+          slate: '#4D4D4D',
+        },
+      },
+    },
+  };
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Noto Sans TC', 'Bricolage Grotesque', sans-serif; }
+  .font-display { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; }
+
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.in-view { opacity: 1; transform: translateY(0); }
+
+  .stroke-num-dark {
+    -webkit-text-stroke: 1.5px rgba(222,222,222,0.4);
+    color: transparent;
+  }
+  .stroke-num-light {
+    -webkit-text-stroke: 1.5px rgba(23,23,23,0.3);
+    color: transparent;
+  }
+
+  .cursor-trail-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #F25623;
+    border-radius: 3px;
+    pointer-events: none;
+    z-index: 100;
+    will-change: transform;
+    transition: opacity 0.3s ease;
+  }
+
+  @keyframes float-slow {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+  }
+  .animate-float-slow { animation: float-slow 2.2s ease-in-out infinite; }
+
+  @keyframes float-image {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-16px); }
+  }
+  .animate-float-image { animation: float-image 5s ease-in-out infinite; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .cursor-trail-dot { display: none; }
+    .animate-float-slow, .animate-float-image { animation: none; }
+    * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  }
+</style>
+</head>
+
+<body class="bg-paper text-ink font-body overflow-x-hidden overflow-y-visible antialiased">
+
+<!-- ============ NAV ============ -->
+<header class="fixed top-0 inset-x-0 z-50">
+  <div class="max-w-3xl mx-auto px-5 sm:px-8 pt-5">
+    <div class="relative flex items-center justify-between rounded-full bg-white/25 backdrop-blur-2xl backdrop-saturate-150 shadow-[0_8px_32px_rgba(23,23,23,0.08)] px-4 sm:px-6 py-2.5">
+
+      <a href="../portfolio-homepage/index.html" class="group flex items-center gap-2 font-display font-bold tracking-tight text-base sm:text-lg shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">
+        <span class="w-8 h-8 rounded-full bg-ink text-paper flex items-center justify-center transition-transform duration-300 group-hover:-translate-x-1">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </span>
+        <span>Back</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main class="relative">
+
+<!-- ============ HERO ============ -->
+<section id="background" class="relative max-w-6xl mx-auto px-5 sm:px-8 pt-28 pb-8 md:pt-36 md:pb-10 scroll-mt-24">
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+
+    <!-- Left: text -->
+    <div>
+      <h1 class="reveal font-display text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.1] tracking-tight mb-5">
+        <span class="text-orange">國泰人壽 hub</span> <span class="text-slate/40">營運數據</span>
+      </h1>
+
+      <p class="reveal font-display text-2xl sm:text-3xl font-bold text-ink leading-snug mb-3 max-w-lg">
+        整合服務使用數據，建立多層級資訊架構
+      </p>
+      <p class="reveal font-body text-base text-slate max-w-lg mb-10">
+        協助管理團隊找到服務優化方向
+      </p>
+
+      <div class="reveal grid grid-cols-3 gap-4 sm:gap-8 mb-10 max-w-lg">
+        <div>
+          <span class="block font-display font-bold text-xs tracking-wide text-slate/50 mb-1">Duration</span>
+          <span class="block font-display font-bold text-sm sm:text-base text-ink">2025.07–2025.10</span>
+        </div>
+        <div>
+          <span class="block font-display font-bold text-xs tracking-wide text-slate/50 mb-1">Role</span>
+          <span class="block font-display font-bold text-sm sm:text-base text-ink">Product Manager</span>
+        </div>
+        <div>
+          <span class="block font-display font-bold text-xs tracking-wide text-slate/50 mb-1">Platform</span>
+          <span class="block font-display font-bold text-sm sm:text-base text-ink">WEB</span>
+        </div>
+      </div>
+
+      <div class="reveal flex items-center gap-3 text-slate">
+        <span class="font-display text-xs font-bold tracking-[0.2em] uppercase">Scroll</span>
+        <span aria-hidden="true" class="w-9 h-9 rounded-full border border-ink/20 flex items-center justify-center animate-float-slow">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        </span>
+      </div>
+    </div>
+
+    <!-- Right: floating dashboard mockup -->
+    <div class="reveal">
+      <img src="電腦-營運數據.png" alt="國泰人壽 hub 營運數據儀表板畫面" class="w-full max-w-xl mx-auto lg:max-w-none h-auto animate-float-image">
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ 01–06 continuous dark zone ============ -->
+<div class="relative bg-ink text-paper rounded-t-[48px] sm:rounded-t-[56px] overflow-hidden">
+
+<!-- ============ 01 專案背景 ============ -->
+<section class="relative max-w-6xl mx-auto px-5 sm:px-8 pt-16 pb-20 md:pt-20 md:pb-28 scroll-mt-24">
+
+    <div class="flex items-baseline gap-5 mb-4">
+      <span class="stroke-num-dark font-display font-bold text-6xl sm:text-7xl leading-none">01</span>
+      <span class="font-display font-bold text-lg sm:text-xl text-[#DEDEDE]/40 leading-none">Project Background</span>
+    </div>
+    <h2 class="font-display text-3xl sm:text-4xl font-bold tracking-tight leading-snug mb-6 max-w-3xl">一個靠「問」出來的營運模式</h2>
+
+    <p class="font-body text-sm sm:text-base text-[#DEDEDE]/75 leading-relaxed max-w-[52rem]">
+      過去，管理團隊主要透過現場人員與租戶的日常接觸，了解大樓服務與站台的使用情況；因此，<span class="text-orange">管理團隊多半被動掌握租戶的問題，難以比較不同大樓、不同服務的使用差異，也難以主動找出服務優化及資源投入的方向</span>。
+    </p>
+
+</section>
+
+<!-- ============ 02 Goals ============ -->
+<section id="goal" class="relative max-w-6xl mx-auto px-5 sm:px-8 py-20 md:py-28 scroll-mt-24">
+  <div class="mb-8">
+    <div class="flex items-baseline gap-3 mb-2">
+      <span class="stroke-num-dark font-display font-bold text-6xl sm:text-7xl leading-none">02</span>
+      <span class="reveal font-display font-bold text-lg sm:text-xl text-[#DEDEDE]/35 leading-none">Goals</span>
+    </div>
+    <h2 class="reveal font-display text-3xl sm:text-4xl font-bold tracking-tight leading-snug max-w-[56rem]">從服務數據找到營運方向</h2>
+  </div>
+
+  <p class="reveal font-body text-base sm:text-lg text-[#DEDEDE]/85 leading-relaxed max-w-2xl mb-10">
+    希望將原本分散在各服務、各案場的營運回饋，轉化為管理團隊、現場人員都能直接查看的數據，做為營運判斷的參考：
+  </p>
+
+  <div class="flex flex-col md:flex-row md:items-stretch gap-5 md:gap-0 mb-16 md:mb-20">
+    <div class="reveal rounded-[24px] bg-paper/[0.06] border border-paper/10 p-7 md:flex-1 flex flex-col gap-4">
+      <span class="w-12 h-12 rounded-xl bg-orange/15 flex items-center justify-center text-orange shrink-0">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>
+      </span>
+      <div>
+        <h3 class="font-display font-bold text-lg mb-2">降低資訊蒐集成本</h3>
+        <p class="text-sm text-[#DEDEDE]/60 leading-relaxed">減少人工詢問與整理資料的時間。</p>
+      </div>
+    </div>
+
+    <div class="hidden md:flex items-center justify-center px-3 shrink-0">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-paper/25"><path d="m9 18 6-6-6-6"/></svg>
+    </div>
+
+    <div class="reveal rounded-[24px] bg-paper/[0.06] border border-paper/10 p-7 md:flex-1 flex flex-col gap-4">
+      <span class="w-12 h-12 rounded-xl bg-orange/15 flex items-center justify-center text-orange shrink-0">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+      </span>
+      <div>
+        <h3 class="font-display font-bold text-lg mb-2">主動掌握服務使用情形</h3>
+        <p class="text-sm text-[#DEDEDE]/60 leading-relaxed">透過使用人數、次數與比例，比較不同大樓與服務的使用差異。</p>
+      </div>
+    </div>
+
+    <div class="hidden md:flex items-center justify-center px-3 shrink-0">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-paper/25"><path d="m9 18 6-6-6-6"/></svg>
+    </div>
+
+    <div class="reveal rounded-[24px] bg-paper/[0.06] border border-paper/10 p-7 md:flex-1 flex flex-col gap-4">
+      <span class="w-12 h-12 rounded-xl bg-orange/15 flex items-center justify-center text-orange shrink-0">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      </span>
+      <div>
+        <h3 class="font-display font-bold text-lg mb-2">作為優化服務的依據</h3>
+        <p class="text-sm text-[#DEDEDE]/60 leading-relaxed">從實際使用數據找出需要優化或增加資源的服務。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="reveal flex items-center gap-3 mb-4">
+    <span aria-hidden="true" class="w-2 h-2 rounded-sm bg-orange shrink-0"></span>
+    <span class="font-display font-bold text-xs sm:text-sm tracking-widest uppercase text-orange">Challenge</span>
+  </div>
+  <p class="reveal font-body text-base sm:text-lg text-[#DEDEDE]/85 leading-relaxed max-w-[56rem] mb-10">
+    在盤點蒐集租戶回饋到服務決策的流程，我們發現三個關鍵挑戰：
+  </p>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+    <div class="reveal rounded-[28px] bg-paper/[0.06] border border-paper/10 p-7 flex flex-col gap-3">
+      <h3 class="font-display font-bold text-base leading-snug">不同角色的資訊需求不同</h3>
+      <p class="text-sm text-[#DEDEDE]/60 leading-relaxed">從現場服務到營運決策，各角色需要的資訊深度不同，需要找到能協助不同使用情境的數據層級。</p>
+    </div>
+    <div class="reveal rounded-[28px] bg-paper/[0.06] border border-paper/10 p-7 flex flex-col gap-3">
+      <h3 class="font-display font-bold text-base leading-snug">整合分散資料</h3>
+      <p class="text-sm text-[#DEDEDE]/60 leading-relaxed">盤點各服務目前的資料來源與使用情境，確認既有資料能如何整合與運用。</p>
+    </div>
+    <div class="reveal rounded-[28px] bg-paper/[0.06] border border-paper/10 p-7 flex flex-col gap-3">
+      <h3 class="font-display font-bold text-base leading-snug">指標眾多，聚焦核心資訊</h3>
+      <p class="text-sm text-[#DEDEDE]/60 leading-relaxed">從多項可能指標中，篩選真正能協助營運判斷的核心數據。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 Discovery & Structure ============ -->
+<section id="research" class="relative py-20 md:py-28 scroll-mt-24">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8">
+
+    <div class="mb-8">
+      <div class="flex items-baseline gap-3 mb-2">
+        <span class="stroke-num-dark font-display font-bold text-6xl sm:text-7xl leading-none">03</span>
+        <span class="reveal font-display font-bold text-lg sm:text-xl text-[#DEDEDE]/35 leading-none">Discovery &amp; Structure</span>
+      </div>
+      <h2 class="reveal font-display text-3xl sm:text-4xl font-bold tracking-tight leading-snug max-w-3xl">從角色需求出發，建立可以逐層下鑽的數據架構</h2>
+    </div>
+
+    <!-- 01 釐清使用角色與情境 -->
+    <div class="reveal flex items-center gap-3 mb-4">
+      <span aria-hidden="true" class="w-2 h-2 rounded-sm bg-orange shrink-0"></span>
+      <span class="font-display font-bold text-xs sm:text-sm tracking-widest uppercase text-orange">01｜釐清使用角色與情境</span>
+    </div>
+    <p class="reveal font-body text-base sm:text-lg text-[#DEDEDE]/85 leading-relaxed max-w-[56rem] mb-8">
+      從不同角色的使用情境出發，釐清各自需要掌握的資訊：
+    </p>
+
+    <div class="reveal grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-6 mb-10 max-w-[56rem]">
+      <div class="flex gap-3">
+        <span class="font-display font-bold text-orange shrink-0">樓管</span>
+        <p class="text-sm text-[#DEDEDE]/60 leading-relaxed">第一線接觸租戶，關注服務是否有人使用、哪些服務較常被使用。</p>
+      </div>
+      <div class="flex gap-3">
+        <span class="font-display font-bold text-orange shrink-0">承辦</span>
+        <p class="text-sm text-[#DEDEDE]/60 leading-relaxed">彙整樓管回饋，關注各項服務的使用情況，協助問題追蹤。</p>
+      </div>
+      <div class="flex gap-3">
+        <span class="font-display font-bold text-orange shrink-0">營運規劃</span>
+        <p class="text-sm text-[#DEDEDE]/60 leading-relaxed">關注不同大樓、服務的使用差異，作為營運與資源調用的參考。</p>
+      </div>
+      <div class="flex gap-3">
+        <span class="font-display font-bold text-orange shrink-0">數據分析師</span>
+        <p class="text-sm text-[#DEDEDE]/60 leading-relaxed">需要更完整的服務使用資料，進一步分析各大樓服務的使用差異與變化。</p>
+      </div>
+    </div>
+
+    <div class="reveal rounded-[24px] bg-orange/5 border border-orange/10 p-7 sm:p-8 mb-16 md:mb-20 max-w-[56rem]">
+      <p class="font-body text-base sm:text-lg text-[#DEDEDE]/70 leading-relaxed">
+        <span class="text-orange font-bold">發現：</span>四種角色雖然都需要數據，但關注的角度不同。從「有沒有被使用」到「使用程度如何」，再到「是否產生實際價值」，需要的資訊層次也逐漸增加，不同角色需要的資訊深度也不同。
+      </p>
+    </div>
+
+    <!-- 02 從使用情境收斂核心指標 -->
+    <div class="reveal flex items-center gap-3 mb-4">
+      <span aria-hidden="true" class="w-2 h-2 rounded-sm bg-orange shrink-0"></span>
+      <span class="font-display font-bold text-xs sm:text-sm tracking-widest uppercase text-orange">02｜從使用情境收斂核心指標</span>
+    </div>
+    <p class="reveal font-body text-base sm:text-lg text-[#DEDEDE]/85 leading-relaxed max-w-[56rem] mb-10">
+      因此，我從角色實際需求出發，將數據收斂為三個核心面向：
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-16 md:mb-20">
+      <div class="reveal rounded-[28px] bg-paper/[0.06] border border-paper/10 p-7 flex flex-col gap-3">
+        <span class="block text-[11px] font-display font-bold tracking-widest uppercase text-orange mb-1">服務使用廣度</span>
+        <h3 class="font-display font-bold text-lg leading-snug">有多少人使用</h3>
+        <p class="text-sm text-[#DEDEDE]/60 leading-relaxed">使用人數、使用比例，了解服務的使用範圍。</p>
+        <p class="text-sm text-[#DEDEDE]/85 leading-relaxed pt-2 border-t border-paper/10">→ 協助<span class="font-bold text-paper">樓管、承辦</span>掌握各項服務的使用情形與租戶涵蓋程度。</p>
+      </div>
+      <div class="reveal rounded-[28px] bg-paper/[0.06] border border-paper/10 p-7 flex flex-col gap-3">
+        <span class="block text-[11px] font-display font-bold tracking-widest uppercase text-orange mb-1">服務使用深度</span>
+        <h3 class="font-display font-bold text-lg leading-snug">使用程度如何</h3>
+        <p class="text-sm text-[#DEDEDE]/60 leading-relaxed">使用次數、使用頻率，了解服務的實際使用程度。</p>
+        <p class="text-sm text-[#DEDEDE]/85 leading-relaxed pt-2 border-t border-paper/10">→ 協助<span class="font-bold text-paper">營運規劃</span>比較不同大樓、服務表現落差的需求。</p>
+      </div>
+      <div class="reveal rounded-[28px] bg-paper/[0.06] border border-paper/10 p-7 flex flex-col gap-3">
+        <span class="block text-[11px] font-display font-bold tracking-widest uppercase text-orange mb-1">服務收益</span>
+        <h3 class="font-display font-bold text-lg leading-snug">帶來多少價值</h3>
+        <p class="text-sm text-[#DEDEDE]/60 leading-relaxed">服務產生的收益，了解使用情形與營運價值。</p>
+        <p class="text-sm text-[#DEDEDE]/85 leading-relaxed pt-2 border-t border-paper/10">→ 協助<span class="font-bold text-paper">數據分析師</span>分析服務使用與營運成果之間的關聯。</p>
+      </div>
+    </div>
+
+    <!-- 03 建立數據架構 -->
+    <div class="reveal flex items-center gap-3 mb-4">
+      <span aria-hidden="true" class="w-2 h-2 rounded-sm bg-orange shrink-0"></span>
+      <span class="font-display font-bold text-xs sm:text-sm tracking-widest uppercase text-orange">03｜建立數據架構</span>
+    </div>
+    <p class="reveal font-body text-base sm:text-lg text-[#DEDEDE]/85 leading-relaxed max-w-[56rem] mb-10">
+      將核心數據依使用情境分層，從整體概況逐步深入到企業與員工使用情形：
+    </p>
+
+    <div class="flex flex-col md:flex-row md:items-stretch gap-5 md:gap-0">
+      <div class="reveal rounded-[24px] bg-paper/[0.06] border border-paper/10 p-7 md:flex-1 flex flex-col gap-2">
+        <span class="font-display font-bold text-xs tracking-widest uppercase text-[#DEDEDE]/40">大樓層級</span>
+        <h3 class="font-display font-bold text-lg mb-1">大樓整體概況</h3>
+        <p class="text-sm text-[#DEDEDE]/60 leading-relaxed">查看整棟大樓的服務使用情形。</p>
+      </div>
+      <div class="hidden md:flex items-center justify-center px-3 shrink-0">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange"><path d="m9 18 6-6-6-6"/></svg>
+      </div>
+      <div class="reveal rounded-[24px] bg-paper/[0.06] border border-paper/10 p-7 md:flex-1 flex flex-col gap-2">
+        <span class="font-display font-bold text-xs tracking-widest uppercase text-[#DEDEDE]/40">企業層級</span>
+        <h3 class="font-display font-bold text-lg mb-1">企業間比較</h3>
+        <p class="text-sm text-[#DEDEDE]/60 leading-relaxed">查看各企業的服務使用情形，進行企業間比較。</p>
+      </div>
+      <div class="hidden md:flex items-center justify-center px-3 shrink-0">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange"><path d="m9 18 6-6-6-6"/></svg>
+      </div>
+      <div class="reveal rounded-[24px] bg-orange/10 border border-orange/25 p-7 md:flex-1 flex flex-col gap-2">
+        <span class="font-display font-bold text-xs tracking-widest uppercase text-orange/70">員工層級</span>
+        <h3 class="font-display font-bold text-lg mb-1 text-orange">企業內部員工使用概況</h3>
+        <p class="text-sm text-[#DEDEDE]/70 leading-relaxed">深入查看單一企業內員工整體服務使用情形。</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</div>
+<!-- ============ end 01–03 dark zone ============ -->
+
+<!-- ============ 04 Solution (light interlude) ============ -->
+<section id="solution" class="relative bg-paper text-ink py-20 md:py-28 scroll-mt-24">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8">
+
+    <div class="mb-8">
+      <div class="flex items-baseline gap-3 mb-2">
+        <span class="stroke-num-light font-display font-bold text-6xl sm:text-7xl leading-none">04</span>
+        <span class="reveal font-display font-bold text-lg sm:text-xl text-slate/45 leading-none">Solution</span>
+      </div>
+      <h2 class="reveal font-display text-3xl sm:text-4xl font-bold tracking-tight leading-snug max-w-[56rem]">從資訊取得方式到營運判斷</h2>
+    </div>
+
+    <div class="reveal overflow-x-auto mb-16 md:mb-20">
+      <table class="w-full border-collapse min-w-[560px]">
+        <thead>
+          <tr class="border-b-2 border-ink/15">
+            <th class="text-left font-display font-bold text-sm sm:text-base py-4 pr-4 w-1/4">挑戰</th>
+            <th class="text-left font-display font-bold text-sm sm:text-base py-4 pr-4 text-slate/60 w-3/8">Before</th>
+            <th class="text-left font-display font-bold text-sm sm:text-base py-4 text-orange w-3/8">After</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-ink/10">
+            <td class="py-5 pr-4 font-display font-bold text-sm sm:text-base align-top">角色需求不同</td>
+            <td class="py-5 pr-4 text-sm sm:text-base text-slate leading-relaxed align-top">不同角色以各自方式取得資訊</td>
+            <td class="py-5 text-sm sm:text-base text-ink leading-relaxed align-top">依角色需求建立「大樓 → 企業 → 員工」的數據架構</td>
+          </tr>
+          <tr class="border-b border-ink/10">
+            <td class="py-5 pr-4 font-display font-bold text-sm sm:text-base align-top">資料分散</td>
+            <td class="py-5 pr-4 text-sm sm:text-base text-slate leading-relaxed align-top">仰賴人工詢問、租戶回饋</td>
+            <td class="py-5 text-sm sm:text-base text-ink leading-relaxed align-top">整合服務使用數據</td>
+          </tr>
+          <tr>
+            <td class="py-5 pr-4 font-display font-bold text-sm sm:text-base align-top">指標眾多</td>
+            <td class="py-5 pr-4 text-sm sm:text-base text-slate leading-relaxed align-top">資料多但難以聚焦</td>
+            <td class="py-5 text-sm sm:text-base text-ink leading-relaxed align-top">收斂為「使用廣度 → 使用深度 → 服務收益」</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="reveal flex flex-col items-start gap-3 max-w-xl">
+      <span class="rounded-full bg-white border border-ink/10 px-5 py-3 font-display font-bold text-sm sm:text-base">過去：靠「問」了解服務</span>
+      <span aria-hidden="true" class="pl-5 text-slate/40">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+      </span>
+      <span class="rounded-full bg-white border border-ink/10 px-5 py-3 font-display font-bold text-sm sm:text-base">現在：用「數據」看見使用情形</span>
+      <span aria-hidden="true" class="pl-5 text-slate/40">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+      </span>
+      <span class="rounded-full bg-orange text-paper px-5 py-3 font-display font-bold text-sm sm:text-base">下一步：從數據找到營運方向</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ 05–06 continuous dark zone ============ -->
+<div class="relative bg-ink text-paper overflow-hidden">
+
+<!-- ============ 05 Expected Impact ============ -->
+<section id="impact" class="relative max-w-6xl mx-auto px-5 sm:px-8 py-20 md:py-28 scroll-mt-24">
+  <div class="mb-10">
+    <div class="flex items-baseline gap-3 mb-2">
+      <span class="stroke-num-dark font-display font-bold text-6xl sm:text-7xl leading-none">05</span>
+      <span class="reveal font-display font-bold text-lg sm:text-xl text-[#DEDEDE]/35 leading-none">Expected Impact</span>
+    </div>
+    <h2 class="reveal font-display text-3xl sm:text-4xl font-bold tracking-tight leading-snug max-w-[56rem]">從「問」到「看」，讓服務優化有方向可循</h2>
+  </div>
+
+  <ol class="space-y-8 max-w-[56rem]">
+    <li class="reveal flex gap-5">
+      <span class="shrink-0 w-9 h-9 rounded-full bg-orange/15 text-orange font-display font-bold flex items-center justify-center mt-0.5">1</span>
+      <div>
+        <p class="font-display font-bold text-lg sm:text-xl mb-1">從「問」到「看」</p>
+        <p class="font-body text-sm sm:text-base text-[#DEDEDE]/70 leading-relaxed">減少人工蒐集與整理資訊的成本。</p>
+      </div>
+    </li>
+    <li class="reveal flex gap-5">
+      <span class="shrink-0 w-9 h-9 rounded-full bg-orange/15 text-orange font-display font-bold flex items-center justify-center mt-0.5">2</span>
+      <div>
+        <p class="font-display font-bold text-lg sm:text-xl mb-1">從「個案」到「整體」</p>
+        <p class="font-body text-sm sm:text-base text-[#DEDEDE]/70 leading-relaxed">從大樓、企業到員工，掌握不同視角的服務使用差異。</p>
+      </div>
+    </li>
+    <li class="reveal flex gap-5">
+      <span class="shrink-0 w-9 h-9 rounded-full bg-orange/15 text-orange font-display font-bold flex items-center justify-center mt-0.5">3</span>
+      <div>
+        <p class="font-display font-bold text-lg sm:text-xl mb-1">從「知道問題」到「找到方向」</p>
+        <p class="font-body text-sm sm:text-base text-[#DEDEDE]/70 leading-relaxed">透過核心指標找出使用落差，協助服務優化與資源決策。</p>
+      </div>
+    </li>
+  </ol>
+</section>
+
+<!-- ============ 06 Reflection ============ -->
+<section id="reflection" class="relative bg-[#242424] py-20 md:py-28 scroll-mt-24">
+<div class="max-w-6xl mx-auto px-5 sm:px-8">
+  <div class="mb-10">
+    <div class="flex items-baseline gap-3 mb-2">
+      <span class="stroke-num-dark font-display font-bold text-6xl sm:text-7xl leading-none">06</span>
+      <span class="reveal font-display font-bold text-lg sm:text-xl text-[#DEDEDE]/35 leading-none">Reflection</span>
+    </div>
+    <h2 class="reveal font-display text-3xl sm:text-4xl font-bold tracking-tight leading-snug max-w-[56rem]">從這次專案學到的三件事</h2>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+    <div class="reveal rounded-[28px] bg-paper/[0.06] border border-paper/10 p-7 flex flex-col gap-3">
+      <span class="stroke-num-dark font-display font-bold text-4xl leading-none">1</span>
+      <h3 class="font-display font-bold text-lg leading-snug">角色需求先於功能設計</h3>
+      <p class="text-sm text-[#DEDEDE]/60 leading-relaxed">不同角色關注的資訊不同，先釐清使用情境與需求，才能避免做出「功能完整、卻不好用」的介面。</p>
+    </div>
+    <div class="reveal rounded-[28px] bg-paper/[0.06] border border-paper/10 p-7 flex flex-col gap-3">
+      <span class="stroke-num-dark font-display font-bold text-4xl leading-none">2</span>
+      <h3 class="font-display font-bold text-lg leading-snug">收斂比蒐集更重要</h3>
+      <p class="text-sm text-[#DEDEDE]/60 leading-relaxed">指標不是越多越好，應從使用情境反推真正有決策價值的資訊，聚焦核心指標。</p>
+    </div>
+    <div class="reveal rounded-[28px] bg-paper/[0.06] border border-paper/10 p-7 flex flex-col gap-3">
+      <span class="stroke-num-dark font-display font-bold text-4xl leading-none">3</span>
+      <h3 class="font-display font-bold text-lg leading-snug">更早驗證資訊架構</h3>
+      <p class="text-sm text-[#DEDEDE]/60 leading-relaxed">如果重來一次，會在前期以低保真線框圖驗證三層架構，先確認符合角色使用習慣，再進入細節設計，降低後期調整成本。</p>
+    </div>
+  </div>
+</div>
+</section>
+
+</div>
+<!-- ============ end 05–06 dark zone ============ -->
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="border-t border-ink/15">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 py-10 flex flex-col sm:flex-row items-center justify-between gap-6">
+    <a href="../portfolio-homepage/index.html" class="font-display font-bold tracking-tight text-lg">Kelly Chiu</a>
+
+    <nav class="flex items-center gap-6" aria-label="Footer">
+      <a href="#background" class="text-sm font-bold font-display text-slate hover:text-ink transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">背景</a>
+      <a href="#solution" class="text-sm font-bold font-display text-slate hover:text-ink transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">解法</a>
+      <a href="#impact" class="text-sm font-bold font-display text-slate hover:text-ink transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">成效</a>
+    </nav>
+
+    <span class="text-xs font-medium text-slate">&copy; <span id="year"></span> Kelly Chiu</span>
+  </div>
+</footer>
+
+<div class="cursor-trail-dot" data-trail data-opacity="0.85" style="width:10px;height:10px;opacity:0"></div>
+<div class="cursor-trail-dot" data-trail data-opacity="0.55" style="width:8px;height:8px;opacity:0"></div>
+<div class="cursor-trail-dot" data-trail data-opacity="0.32" style="width:6px;height:6px;opacity:0"></div>
+<div class="cursor-trail-dot" data-trail data-opacity="0.16" style="width:5px;height:5px;opacity:0"></div>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const revealEls = document.querySelectorAll('.reveal');
+
+  if (prefersReduced) {
+    revealEls.forEach(el => el.classList.add('in-view'));
+  } else {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(el => io.observe(el));
+  }
+
+  // Fading orange cursor trail (fine pointer + no reduced motion only)
+  (function () {
+    const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    if (!canHover || prefersReduced) return;
+
+    const dots = Array.from(document.querySelectorAll('[data-trail]')).map((el) => ({
+      el, x: 0, y: 0,
+    }));
+    const mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+    let started = false;
+
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      if (!started) {
+        started = true;
+        dots.forEach((d) => {
+          d.x = mouse.x;
+          d.y = mouse.y;
+          d.el.style.opacity = d.el.dataset.opacity;
+        });
+      }
+    });
+
+    function tick() {
+      let targetX = mouse.x;
+      let targetY = mouse.y;
+      dots.forEach((d, i) => {
+        const ease = 0.32 - i * 0.05;
+        d.x += (targetX - d.x) * ease;
+        d.y += (targetY - d.y) * ease;
+        const size = d.el.offsetWidth;
+        d.el.style.transform = `translate(${d.x - size / 2}px, ${d.y - size / 2}px)`;
+        targetX = d.x;
+        targetY = d.y;
+      });
+      requestAnimationFrame(tick);
+    }
+    tick();
+  })();
+</script>
+
+</body>
+</html>
