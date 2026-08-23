@@ -107,6 +107,20 @@
         </span>
         <span>Back</span>
       </a>
+
+      <nav id="nav-track" class="relative flex items-center gap-1 sm:gap-2" aria-label="Primary">
+        <span id="nav-indicator" aria-hidden="true"></span>
+
+        <a href="../index.html#work" data-nav-item class="relative px-4 sm:px-5 py-2 text-xs sm:text-sm font-bold font-display tracking-wide text-ink transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">
+          Work
+        </a>
+        <a href="../index.html#about" data-nav-item class="relative px-4 sm:px-5 py-2 text-xs sm:text-sm font-bold font-display tracking-wide text-ink transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">
+          About me
+        </a>
+        <a href="../index.html#resume" class="group ml-1 sm:ml-2 px-4 sm:px-5 py-2 rounded-full border-2 border-ink text-xs sm:text-sm font-bold font-display tracking-wide text-ink transition-all duration-300 hover:bg-orange hover:border-orange hover:text-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">
+          Resume
+        </a>
+      </nav>
     </div>
   </div>
 </header>
@@ -116,7 +130,7 @@
 <!-- ============ 01 專案背景 / HERO ============ -->
 <section id="background" class="relative max-w-6xl mx-auto px-5 sm:px-8 pt-28 pb-8 md:pt-36 md:pb-10 scroll-mt-24">
 
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center mb-16 md:mb-24">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
 
     <!-- Left: text -->
     <div>
@@ -160,7 +174,7 @@
 
     <!-- Right: floating phone mockup -->
     <div class="reveal">
-      <img src="PicCollage%20首圖.png" alt="PicCollage App 改版畫面：智慧風格選擇與每日拼貼提醒" class="w-full max-w-md mx-auto lg:max-w-none h-auto animate-float-image">
+      <img src="PicCollage%20首圖.png" alt="PicCollage App 改版畫面：智慧風格選擇與每日拼貼提醒" class="w-full max-w-md mx-auto lg:max-w-none lg:w-auto lg:max-h-[440px] h-auto animate-float-image">
     </div>
 
   </div>
@@ -633,18 +647,34 @@
 </div>
 <!-- ============ end 01–07 continuous dark zone ============ -->
 
+<!-- ============ NEXT PROJECT ============ -->
+<section class="max-w-6xl mx-auto px-5 sm:px-8 py-24 md:py-32 scroll-mt-24">
+  <div class="reveal flex items-center gap-3 mb-8">
+    <span aria-hidden="true" class="w-2 h-2 rounded-sm bg-orange shrink-0"></span>
+    <span class="font-display font-bold text-xs sm:text-sm tracking-widest uppercase text-slate">Next Project</span>
+  </div>
+
+  <a href="../cathay-hub/index.html" class="reveal group relative w-full rounded-[32px] overflow-hidden flex flex-col md:flex-row md:h-[420px] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[10px_10px_0_0_rgba(242,86,35,0.9)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">
+    <div class="relative w-full md:w-1/2 aspect-[4/3] md:aspect-auto md:h-full bg-[#1A1A1A] overflow-hidden flex items-center justify-center p-6 md:p-10">
+      <img src="../cathay-hub/電腦-營運數據.png" alt="hub 營運數據儀表板畫面" class="w-full h-full object-contain">
+    </div>
+    <div class="relative w-full md:w-1/2 md:h-full bg-[#1A1A1A] text-paper flex flex-col justify-center gap-3 px-8 py-10 md:px-10">
+      <span class="inline-flex w-fit items-center rounded-full bg-paper/10 px-4 py-1.5 text-sm font-display font-bold tracking-wide text-paper">Product Manager</span>
+      <h3 class="font-display text-2xl sm:text-3xl md:text-4xl font-bold leading-tight tracking-tight">hub 營運數據</h3>
+      <p class="font-body text-base sm:text-lg text-[#DEDEDE]/70 leading-relaxed max-w-md">整合服務使用數據，建立多層級資訊架構，協助管理團隊找到服務優化方向</p>
+      <span aria-hidden="true" class="absolute bottom-6 right-6 md:bottom-8 md:right-8 w-12 h-12 md:w-14 md:h-14 rounded-full bg-orange text-ink flex items-center justify-center transition-transform duration-300 group-hover:translate-x-1">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+      </span>
+    </div>
+  </a>
+</section>
+
 </main>
 
 <!-- ============ FOOTER ============ -->
 <footer class="border-t border-ink/15">
   <div class="max-w-6xl mx-auto px-5 sm:px-8 py-10 flex flex-col sm:flex-row items-center justify-between gap-6">
     <a href="../index.html" class="font-display font-bold tracking-tight text-lg">Kelly Chiu</a>
-
-    <nav class="flex items-center gap-6" aria-label="Footer">
-      <a href="#background" class="text-sm font-bold font-display text-slate hover:text-ink transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">背景</a>
-      <a href="#solution" class="text-sm font-bold font-display text-slate hover:text-ink transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">解法</a>
-      <a href="#impact" class="text-sm font-bold font-display text-slate hover:text-ink transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">成效</a>
-    </nav>
 
     <span class="text-xs font-medium text-slate">&copy; <span id="year"></span> Kelly Chiu</span>
   </div>
