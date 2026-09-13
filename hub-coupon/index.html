@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>hub 優惠券服務 | Kelly Chiu</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          display: ['Bricolage Grotesque', 'Noto Sans TC', 'sans-serif'],
+          body: ['Noto Sans TC', 'Bricolage Grotesque', 'sans-serif'],
+        },
+        colors: {
+          ink: '#171717',
+          orange: '#F25623',
+          paper: '#DEDEDE',
+          slate: '#4D4D4D',
+        },
+      },
+    },
+  };
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Noto Sans TC', 'Bricolage Grotesque', sans-serif; }
+  .font-display { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; }
+
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.in-view { opacity: 1; transform: translateY(0); }
+
+  .stroke-num-dark {
+    -webkit-text-stroke: 1.5px rgba(222,222,222,0.4);
+    color: transparent;
+  }
+  .stroke-num-light {
+    -webkit-text-stroke: 1.5px rgba(23,23,23,0.3);
+    color: transparent;
+  }
+
+  .cursor-trail-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #F25623;
+    border-radius: 3px;
+    pointer-events: none;
+    z-index: 100;
+    will-change: transform;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Nav sliding hover indicator */
+  #nav-indicator {
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    border-radius: 9999px;
+    background-color: #F25623;
+    opacity: 0;
+    transition: left 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                width 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.2s ease;
+    pointer-events: none;
+  }
+
+  @keyframes float-slow {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+  }
+  .animate-float-slow { animation: float-slow 2.2s ease-in-out infinite; }
+
+  @keyframes float-image {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-16px); }
+  }
+  .animate-float-image { animation: float-image 5s ease-in-out infinite; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .cursor-trail-dot { display: none; }
+    .animate-float-slow, .animate-float-image { animation: none; }
+    * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  }
+</style>
+</head>
+
+<body class="bg-paper text-ink font-body overflow-x-hidden overflow-y-visible antialiased">
+
+<!-- ============ NAV ============ -->
+<header class="fixed top-0 inset-x-0 z-50">
+  <div class="max-w-3xl mx-auto px-5 sm:px-8 pt-5">
+    <div class="relative flex items-center justify-between rounded-full bg-white/25 backdrop-blur-2xl backdrop-saturate-150 shadow-[0_8px_32px_rgba(23,23,23,0.08)] px-4 sm:px-6 py-2.5">
+
+      <a href="../index.html" class="group flex items-center gap-2 font-display font-bold tracking-tight text-base sm:text-lg shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">
+        <span class="w-8 h-8 rounded-full bg-ink text-paper flex items-center justify-center transition-transform duration-300 group-hover:-translate-x-1">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </span>
+        <span>Back</span>
+      </a>
+
+      <nav id="nav-track" class="relative flex items-center gap-1 sm:gap-2" aria-label="Primary">
+        <span id="nav-indicator" aria-hidden="true"></span>
+
+        <a href="../index.html#work" data-nav-item class="relative px-4 sm:px-5 py-2 text-xs sm:text-sm font-bold font-display tracking-wide text-ink transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">
+          Work
+        </a>
+        <a href="../index.html#about" data-nav-item class="relative px-4 sm:px-5 py-2 text-xs sm:text-sm font-bold font-display tracking-wide text-ink transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">
+          About me
+        </a>
+        <a href="../index.html#resume" class="group ml-1 sm:ml-2 px-4 sm:px-5 py-2 rounded-full border-2 border-ink text-xs sm:text-sm font-bold font-display tracking-wide text-ink transition-all duration-300 hover:bg-orange hover:border-orange hover:text-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">
+          Resume
+        </a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main class="relative">
+
+<!-- ============ HERO ============ -->
+<section id="background" class="relative max-w-6xl mx-auto px-5 sm:px-8 pt-28 pb-8 md:pt-36 md:pb-10 scroll-mt-24">
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+
+    <!-- Left: text -->
+    <div>
+      <h1 class="reveal font-display text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.1] tracking-tight mb-5">
+        <span class="text-orange">hub</span> <span class="text-slate/40">優惠券服務</span>
+      </h1>
+
+      <p class="reveal font-display text-2xl sm:text-3xl font-bold text-ink leading-snug mb-3 max-w-lg">
+        將人工發放轉為線上管理
+      </p>
+      <p class="reveal font-body text-base text-slate max-w-lg mb-10">
+        串聯樓管、企業與員工的優惠券使用流程
+      </p>
+
+      <div class="reveal grid grid-cols-3 gap-4 sm:gap-8 mb-10 max-w-lg">
+        <div>
+          <span class="block font-display font-bold text-xs tracking-wide text-slate/50 mb-1">Duration</span>
+          <span class="block font-display font-bold text-sm sm:text-base text-ink">2026.05–2026.11</span>
+        </div>
+        <div>
+          <span class="block font-display font-bold text-xs tracking-wide text-slate/50 mb-1">Role</span>
+          <span class="block font-display font-bold text-sm sm:text-base text-ink">Product Manager</span>
+        </div>
+        <div>
+          <span class="block font-display font-bold text-xs tracking-wide text-slate/50 mb-1">Platform</span>
+          <span class="block font-display font-bold text-sm sm:text-base text-ink">WEB</span>
+        </div>
+      </div>
+
+      <div class="reveal flex items-center gap-3 text-slate">
+        <span class="font-display text-xs font-bold tracking-[0.2em] uppercase">Scroll</span>
+        <span aria-hidden="true" class="w-9 h-9 rounded-full border border-ink/20 flex items-center justify-center animate-float-slow">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        </span>
+      </div>
+    </div>
+
+    <!-- Right: floating dashboard mockup -->
+    <div class="reveal">
+      <img src="優惠券.png" alt="hub 優惠券服務畫面：MacBook 與手機顯示可使用優惠券清單" class="w-full max-w-xl mx-auto lg:max-w-none h-auto animate-float-image">
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ 01–07 continuous dark zone ============ -->
+<div class="relative bg-ink text-paper rounded-t-[48px] sm:rounded-t-[56px] overflow-hidden">
+
+<!-- ============ 01 專案背景 ============ -->
+<section class="relative max-w-6xl mx-auto px-5 sm:px-8 pt-16 pb-20 md:pt-20 md:pb-28 scroll-mt-24">
+
+    <div class="flex items-baseline gap-5 mb-4">
+      <span class="stroke-num-dark font-display font-bold text-6xl sm:text-7xl leading-none">01</span>
+      <span class="font-display font-bold text-lg sm:text-xl text-[#DEDEDE]/40 leading-none">Project Background</span>
+    </div>
+    <h2 class="font-display text-3xl sm:text-4xl font-bold tracking-tight leading-snug mb-6 max-w-3xl">從人工發放走向線上化</h2>
+
+    <p class="font-body text-sm sm:text-base text-[#DEDEDE]/75 leading-relaxed max-w-[52rem] mb-4">
+      hub 以整合辦公多元服務為核心，讓企業透過線上平台管理契約與使用各項辦公服務。
+    </p>
+    <p class="font-body text-sm sm:text-base text-[#DEDEDE]/75 leading-relaxed max-w-[52rem] mb-4">
+      其中，<span class="text-orange">優惠券是企業契約中約定的服務權益</span>，由承辦依契約內容定期發放。由於優惠券為新服務，初期以<span class="text-orange">人工方式發放</span>，且<span class="text-orange">尚未建立明確的作業 SOP</span>，實際執行過程中逐步調整。
+    </p>
+    <p class="font-body text-sm sm:text-base text-[#DEDEDE]/75 leading-relaxed max-w-[52rem] mb-10">
+      因此本次專案希望將<span class="text-orange">優惠券發放流程搬到平台上</span>，建立完整的線上流程，降低人工處理成本。
+    </p>
+
+    <div class="reveal rounded-[28px] overflow-hidden">
+      <img src="優惠券.jpg" alt="員工於店家出示手機優惠券完成兌換" class="w-full h-auto object-cover">
+    </div>
+
+</section>
+
+<!-- ============ 02 Goals ============ -->
+<section id="goal" class="relative max-w-6xl mx-auto px-5 sm:px-8 py-20 md:py-28 scroll-mt-24">
+  <div class="mb-8">
+    <div class="flex items-baseline gap-3 mb-2">
+      <span class="stroke-num-dark font-display font-bold text-6xl sm:text-7xl leading-none">02</span>
+      <span class="reveal font-display font-bold text-lg sm:text-xl text-[#DEDEDE]/35 leading-none">Goals</span>
+    </div>
+    <h2 class="reveal font-display text-3xl sm:text-4xl font-bold tracking-tight leading-snug max-w-[56rem]">從流程改善創造服務價值</h2>
+  </div>
+
+  <p class="reveal font-body text-base sm:text-lg text-[#DEDEDE]/85 leading-relaxed max-w-2xl mb-10">
+    我們期望透過優惠券流程線上化：
+  </p>
+
+  <div class="flex flex-col md:flex-row md:items-stretch gap-5 md:gap-0">
+    <div class="reveal rounded-[24px] bg-paper/[0.06] border border-paper/10 p-7 md:flex-1 flex flex-col gap-4">
+      <span class="w-12 h-12 rounded-xl bg-orange/15 flex items-center justify-center text-orange shrink-0">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      </span>
+      <div>
+        <h3 class="font-display font-bold text-lg mb-2">降低營運成本</h3>
+        <p class="text-sm text-[#DEDEDE]/60 leading-relaxed">減少優惠券印製、倉儲及人工管理成本。</p>
+      </div>
+    </div>
+
+    <div class="hidden md:flex items-center justify-center px-3 shrink-0">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-paper/25"><path d="m9 18 6-6-6-6"/></svg>
+    </div>
+
+    <div class="reveal rounded-[24px] bg-paper/[0.06] border border-paper/10 p-7 md:flex-1 flex flex-col gap-4">
+      <span class="w-12 h-12 rounded-xl bg-orange/15 flex items-center justify-center text-orange shrink-0">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+      </span>
+      <div>
+        <h3 class="font-display font-bold text-lg mb-2">累積使用數據，協助營運決策</h3>
+        <p class="text-sm text-[#DEDEDE]/60 leading-relaxed">掌握優惠券使用狀況與租戶偏好，作為後續服務優化依據。</p>
+      </div>
+    </div>
+
+    <div class="hidden md:flex items-center justify-center px-3 shrink-0">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-paper/25"><path d="m9 18 6-6-6-6"/></svg>
+    </div>
+
+    <div class="reveal rounded-[24px] bg-paper/[0.06] border border-paper/10 p-7 md:flex-1 flex flex-col gap-4">
+      <span class="w-12 h-12 rounded-xl bg-orange/15 flex items-center justify-center text-orange shrink-0">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </span>
+      <div>
+        <h3 class="font-display font-bold text-lg mb-2">串聯商家與企業租戶價值</h3>
+        <p class="text-sm text-[#DEDEDE]/60 leading-relaxed">提供符合租戶需求的優惠，同時增加商家曝光與潛在客流，吸引更多商家與企業租戶加入，持續擴大平台服務價值。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 Challenges ============ -->
+<section id="challenge" class="relative py-20 md:py-28 scroll-mt-24">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8">
+
+    <div class="mb-8">
+      <div class="flex items-baseline gap-3 mb-2">
+        <span class="stroke-num-dark font-display font-bold text-6xl sm:text-7xl leading-none">03</span>
+        <span class="reveal font-display font-bold text-lg sm:text-xl text-[#DEDEDE]/35 leading-none">Challenges</span>
+      </div>
+      <h2 class="reveal font-display text-3xl sm:text-4xl font-bold tracking-tight leading-snug max-w-3xl">釐清角色與使用流程</h2>
+    </div>
+
+    <p class="reveal font-body text-base sm:text-lg text-[#DEDEDE]/85 leading-relaxed max-w-[56rem] mb-10">
+      團隊在啟動設計前，先透過訪談釐清了兩件事：
+    </p>
+
+    <div class="reveal border-t border-paper/10 mb-16 md:mb-20">
+      <div class="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-10 py-7 border-b border-paper/10">
+        <span class="font-display font-bold text-sm text-[#DEDEDE]/40 sm:w-10 shrink-0">01</span>
+        <h3 class="font-display font-bold text-base sm:w-72 shrink-0">確認線上流程、角色</h3>
+        <p class="text-sm text-[#DEDEDE]/60 leading-relaxed">透過訪談了解現行優惠券作業方式，釐清從建立、發放、分配到使用的完整流程，以及各階段參與的角色。</p>
+      </div>
+      <div class="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-10 py-7">
+        <span class="font-display font-bold text-sm text-[#DEDEDE]/40 sm:w-10 shrink-0">02</span>
+        <h3 class="font-display font-bold text-base sm:w-72 shrink-0">釐清角色使用情境</h3>
+        <p class="text-sm text-[#DEDEDE]/60 leading-relaxed">從各角色的使用情境，進一步了解其操作需求：</p>
+      </div>
+    </div>
+
+    <div class="reveal grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div class="rounded-[24px] bg-paper/[0.06] border border-paper/10 p-7 flex flex-col gap-3">
+        <span class="inline-flex w-fit rounded-full bg-paper/10 px-3 py-1 text-xs font-display font-bold">樓管｜上架 / 發放優惠券</span>
+        <ul class="text-sm text-[#DEDEDE]/70 leading-relaxed list-disc pl-4 space-y-1">
+          <li>設定優惠券內容、發放數量與期間</li>
+          <li>掌握發放狀況與剩餘狀況</li>
+        </ul>
+      </div>
+      <div class="rounded-[24px] bg-paper/[0.06] border border-paper/10 p-7 flex flex-col gap-3">
+        <span class="inline-flex w-fit rounded-full bg-paper/10 px-3 py-1 text-xs font-display font-bold">企業管理者｜管理 / 分配優惠券</span>
+        <ul class="text-sm text-[#DEDEDE]/70 leading-relaxed list-disc pl-4 space-y-1">
+          <li>查看企業可使用的優惠券</li>
+          <li>依需求選擇員工並分配優惠券</li>
+        </ul>
+      </div>
+      <div class="rounded-[24px] bg-paper/[0.06] border border-paper/10 p-7 flex flex-col gap-3">
+        <span class="inline-flex w-fit rounded-full bg-paper/10 px-3 py-1 text-xs font-display font-bold">員工｜兌換優惠券</span>
+        <ul class="text-sm text-[#DEDEDE]/70 leading-relaxed list-disc pl-4 space-y-1">
+          <li>各狀態優惠券的使用資訊</li>
+          <li>於商家端出示優惠券完成兌換</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 04 Competitive Research ============ -->
+<section id="research" class="relative max-w-6xl mx-auto px-5 sm:px-8 py-20 md:py-28 scroll-mt-24">
+  <div class="mb-8">
+    <div class="flex items-baseline gap-3 mb-2">
+      <span class="stroke-num-dark font-display font-bold text-6xl sm:text-7xl leading-none">04</span>
+      <span class="reveal font-display font-bold text-lg sm:text-xl text-[#DEDEDE]/35 leading-none">Competitive Research</span>
+    </div>
+    <h2 class="reveal font-display text-3xl sm:text-4xl font-bold tracking-tight leading-snug max-w-[56rem]">拆解優惠券使用流程</h2>
+  </div>
+
+  <p class="reveal font-body text-base sm:text-lg text-[#DEDEDE]/85 leading-relaxed max-w-[56rem] mb-10">
+    將流程拆解成「上架 → 分配 → 兌換 → 使用追蹤」四階段，並觀察競品設計要點：
+  </p>
+
+  <div class="reveal relative mb-10 h-6">
+    <div class="absolute top-1/2 left-[12.5%] right-[12.5%] h-px bg-paper/15 -translate-y-1/2"></div>
+    <div class="relative grid grid-cols-4 h-full">
+      <div class="flex items-center justify-center"><span class="w-3 h-3 rounded-full bg-orange"></span></div>
+      <div class="flex items-center justify-center"><span class="w-3 h-3 rounded-full bg-orange"></span></div>
+      <div class="flex items-center justify-center"><span class="w-3 h-3 rounded-full bg-orange"></span></div>
+      <div class="flex items-center justify-center"><span class="w-3 h-3 rounded-full bg-orange"></span></div>
+    </div>
+  </div>
+  <div class="reveal grid grid-cols-4 gap-2 text-center mb-10">
+    <span class="font-display font-bold text-xs sm:text-sm text-[#DEDEDE]/70">上架</span>
+    <span class="font-display font-bold text-xs sm:text-sm text-[#DEDEDE]/70">分配</span>
+    <span class="font-display font-bold text-xs sm:text-sm text-[#DEDEDE]/70">兌換</span>
+    <span class="font-display font-bold text-xs sm:text-sm text-[#DEDEDE]/70">使用追蹤</span>
+  </div>
+
+  <div class="reveal grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
+    <div class="rounded-[24px] bg-paper/[0.06] border border-paper/10 p-6 flex flex-col gap-3">
+      <h3 class="font-display font-bold text-sm leading-snug">上架優惠券</h3>
+      <p class="text-sm text-[#DEDEDE]/60 leading-relaxed">盤點優惠券上架所需的資訊、設定方式。</p>
+      <div class="pt-3 border-t border-paper/10">
+        <span class="block text-[11px] font-display font-bold tracking-widest uppercase text-orange mb-1">競品</span>
+        <p class="text-sm text-[#DEDEDE]/85 leading-relaxed">Justworks、Open Loyalty</p>
+      </div>
+    </div>
+    <div class="rounded-[24px] bg-paper/[0.06] border border-paper/10 p-6 flex flex-col gap-3">
+      <h3 class="font-display font-bold text-sm leading-snug">管理 / 分配優惠券</h3>
+      <p class="text-sm text-[#DEDEDE]/60 leading-relaxed">了解如何管理分配對象、張數。</p>
+      <div class="pt-3 border-t border-paper/10">
+        <span class="block text-[11px] font-display font-bold tracking-widest uppercase text-orange mb-1">競品</span>
+        <p class="text-sm text-[#DEDEDE]/85 leading-relaxed">WeWork</p>
+      </div>
+    </div>
+    <div class="rounded-[24px] bg-paper/[0.06] border border-paper/10 p-6 flex flex-col gap-3">
+      <h3 class="font-display font-bold text-sm leading-snug">兌換優惠券</h3>
+      <p class="text-sm text-[#DEDEDE]/60 leading-relaxed">了解員工與商家兌換時的資訊確認與核銷方式。</p>
+      <div class="pt-3 border-t border-paper/10">
+        <span class="block text-[11px] font-display font-bold tracking-widest uppercase text-orange mb-1">競品</span>
+        <p class="text-sm text-[#DEDEDE]/85 leading-relaxed">LINE 禮物、Edenred、711、全家</p>
+      </div>
+    </div>
+    <div class="rounded-[24px] bg-paper/[0.06] border border-paper/10 p-6 flex flex-col gap-3">
+      <h3 class="font-display font-bold text-sm leading-snug">追蹤使用狀況</h3>
+      <p class="text-sm text-[#DEDEDE]/60 leading-relaxed">比較發放、兌換數量的呈現方式。</p>
+      <div class="pt-3 border-t border-paper/10">
+        <span class="block text-[11px] font-display font-bold tracking-widest uppercase text-orange mb-1">競品</span>
+        <p class="text-sm text-[#DEDEDE]/85 leading-relaxed">Justworks、Open Loyalty</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 Key Findings ============ -->
+<section id="findings" class="relative max-w-6xl mx-auto px-5 sm:px-8 py-20 md:py-28 scroll-mt-24">
+  <div class="mb-8">
+    <div class="flex items-baseline gap-3 mb-2">
+      <span class="stroke-num-dark font-display font-bold text-6xl sm:text-7xl leading-none">05</span>
+      <span class="reveal font-display font-bold text-lg sm:text-xl text-[#DEDEDE]/35 leading-none">Key Findings</span>
+    </div>
+    <h2 class="reveal font-display text-3xl sm:text-4xl font-bold tracking-tight leading-snug max-w-[56rem]">找出流程中的關鍵需求</h2>
+  </div>
+
+  <p class="reveal font-body text-base sm:text-lg text-[#DEDEDE]/85 leading-relaxed max-w-[56rem] mb-10">
+    除了基本流程與角色需求外，透過訪談進一步發現幾項後續設計需特別考量的情境：
+  </p>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+    <div class="reveal rounded-[28px] bg-paper/[0.06] border border-paper/10 p-7 flex flex-col gap-3">
+      <span class="stroke-num-dark font-display font-bold text-4xl leading-none">1</span>
+      <h3 class="font-display font-bold text-lg leading-snug">優惠券數量異動</h3>
+      <p class="text-sm text-[#DEDEDE]/60 leading-relaxed">因應企業擴編，樓管增加發放數量後，管理者同步調整分配員工、張數。</p>
+    </div>
+    <div class="reveal rounded-[28px] bg-paper/[0.06] border border-paper/10 p-7 flex flex-col gap-3">
+      <span class="stroke-num-dark font-display font-bold text-4xl leading-none">2</span>
+      <h3 class="font-display font-bold text-lg leading-snug">分層管理不同契約</h3>
+      <p class="text-sm text-[#DEDEDE]/60 leading-relaxed">讓樓管、企業管理者掌握優惠券的契約歸屬、張數與分配狀況。</p>
+    </div>
+    <div class="reveal rounded-[28px] bg-paper/[0.06] border border-paper/10 p-7 flex flex-col gap-3">
+      <span class="stroke-num-dark font-display font-bold text-4xl leading-none">3</span>
+      <h3 class="font-display font-bold text-lg leading-snug">快速找到優惠券</h3>
+      <p class="text-sm text-[#DEDEDE]/60 leading-relaxed">依店家、到期時間等條件篩選，快速找到並完成兌換。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 06 Solutions (light interlude) ============ -->
+<section id="solution" class="relative bg-paper text-ink py-20 md:py-28 scroll-mt-24">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8">
+
+    <div class="mb-8">
+      <div class="flex items-baseline gap-3 mb-2">
+        <span class="stroke-num-light font-display font-bold text-6xl sm:text-7xl leading-none">06</span>
+        <span class="reveal font-display font-bold text-lg sm:text-xl text-slate/45 leading-none">Solutions</span>
+      </div>
+      <h2 class="reveal font-display text-3xl sm:text-4xl font-bold tracking-tight leading-snug max-w-[56rem]">建立完整的優惠券流程</h2>
+    </div>
+
+    <p class="reveal font-body text-base sm:text-lg text-slate leading-relaxed max-w-[56rem] mb-10">
+      針對「上架 → 分配 → 兌換 → 追蹤」四階段，我們整合出對應的解法與價值：
+    </p>
+
+    <div class="reveal grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
+      <div class="rounded-[24px] border border-ink/10 p-6 flex flex-col gap-3">
+        <span class="w-10 h-10 rounded-xl bg-orange/10 flex items-center justify-center text-orange shrink-0">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+        </span>
+        <h3 class="font-display font-bold text-base leading-snug">上架優惠券</h3>
+        <div>
+          <span class="block text-[11px] font-display font-bold tracking-widest uppercase text-slate/50 mb-1">解法</span>
+          <p class="text-sm text-ink leading-relaxed mb-3">標準化設定流程，於指定時間由系統自動發放。</p>
+          <span class="block text-[11px] font-display font-bold tracking-widest uppercase text-orange mb-1">價值</span>
+          <p class="text-sm text-slate leading-relaxed">降低人工作業成本。</p>
+        </div>
+      </div>
+      <div class="rounded-[24px] border border-ink/10 p-6 flex flex-col gap-3">
+        <span class="w-10 h-10 rounded-xl bg-orange/10 flex items-center justify-center text-orange shrink-0">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M16 3v4M8 3v4M3 11h18"/></svg>
+        </span>
+        <h3 class="font-display font-bold text-base leading-snug">管理 / 分配優惠券</h3>
+        <div>
+          <span class="block text-[11px] font-display font-bold tracking-widest uppercase text-slate/50 mb-1">解法</span>
+          <p class="text-sm text-ink leading-relaxed mb-3">依契約區分適用的優惠券，讓樓管、管理者可以依需求查看優惠券。</p>
+          <span class="block text-[11px] font-display font-bold tracking-widest uppercase text-orange mb-1">價值</span>
+          <p class="text-sm text-slate leading-relaxed">清楚掌握不同契約的權益與分配狀況。</p>
+        </div>
+      </div>
+      <div class="rounded-[24px] border border-ink/10 p-6 flex flex-col gap-3">
+        <span class="w-10 h-10 rounded-xl bg-orange/10 flex items-center justify-center text-orange shrink-0">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        </span>
+        <h3 class="font-display font-bold text-base leading-snug">兌換優惠券</h3>
+        <div>
+          <span class="block text-[11px] font-display font-bold tracking-widest uppercase text-slate/50 mb-1">解法</span>
+          <p class="text-sm text-ink leading-relaxed mb-3">依狀態、到期時間管理優惠券，並以店家、優惠券名稱快速搜尋。</p>
+          <span class="block text-[11px] font-display font-bold tracking-widest uppercase text-orange mb-1">價值</span>
+          <p class="text-sm text-slate leading-relaxed">縮短找券時間，提升兌換便利性。</p>
+        </div>
+      </div>
+      <div class="rounded-[24px] border border-ink/10 p-6 flex flex-col gap-3">
+        <span class="w-10 h-10 rounded-xl bg-orange/10 flex items-center justify-center text-orange shrink-0">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+        </span>
+        <h3 class="font-display font-bold text-base leading-snug">追蹤使用狀況</h3>
+        <div>
+          <span class="block text-[11px] font-display font-bold tracking-widest uppercase text-slate/50 mb-1">解法</span>
+          <p class="text-sm text-ink leading-relaxed mb-3">以時間、發放狀態與使用狀況管理兌換紀錄。</p>
+          <span class="block text-[11px] font-display font-bold tracking-widest uppercase text-orange mb-1">價值</span>
+          <p class="text-sm text-slate leading-relaxed">快速掌握發放與使用情形，累積數據資料作為後續服務優化依據。</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ 07–08 continuous dark zone ============ -->
+<div class="relative bg-ink text-paper overflow-hidden">
+
+<!-- ============ 07 User Feedback ============ -->
+<section id="feedback" class="relative bg-ink text-paper py-20 md:py-28 scroll-mt-24">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8">
+
+    <div class="mb-8">
+      <div class="flex items-baseline gap-3 mb-2">
+        <span class="stroke-num-dark font-display font-bold text-6xl sm:text-7xl leading-none">07</span>
+        <span class="reveal font-display font-bold text-lg sm:text-xl text-[#DEDEDE]/35 leading-none">User Feedback</span>
+      </div>
+      <h2 class="reveal font-display text-3xl sm:text-4xl font-bold tracking-tight leading-snug max-w-[56rem]">驗證流程是否更簡單</h2>
+    </div>
+
+    <p class="reveal font-body text-base sm:text-lg text-[#DEDEDE]/85 leading-relaxed mb-14">
+      測試過程中的回饋，也驗證了這個方向：
+    </p>
+  </div>
+
+  <div id="testimonial-carousel" class="reveal">
+      <div id="testimonial-viewport" class="overflow-hidden">
+        <div id="testimonial-track" class="flex items-stretch gap-5">
+
+          <blockquote data-slide class="shrink-0 min-w-0 w-[82%] sm:w-[62%] lg:w-[50%] rounded-[28px] border px-8 py-6 sm:px-10 sm:py-7 flex flex-col justify-between transition-all duration-500 ease-out">
+            <div>
+              <span aria-hidden="true" class="block font-display text-3xl text-orange/70 leading-none mb-3">&ldquo;</span>
+              <p class="font-display text-sm sm:text-base leading-relaxed tracking-tight">各租戶需要多少優惠券、什麼時候發，都可以直接在系統裡處理，不用另外整理表單。站台會依設定好的時間和數量處理發放，比較不用自己記錄，也比較不容易漏掉。<span class="text-orange">可以直接看到優惠券用了多少、剩多少</span>，後續要確認發放狀況也方便很多。</p>
+            </div>
+            <footer class="flex items-center gap-3 mt-4 pt-4 border-t border-paper/10">
+              <span aria-hidden="true" class="w-10 h-10 rounded-full bg-orange/15 text-orange font-display font-bold flex items-center justify-center shrink-0">樓</span>
+              <p class="font-display font-bold text-sm">樓管</p>
+            </footer>
+          </blockquote>
+
+          <blockquote data-slide class="shrink-0 min-w-0 w-[82%] sm:w-[62%] lg:w-[50%] rounded-[28px] border px-8 py-6 sm:px-10 sm:py-7 flex flex-col justify-between transition-all duration-500 ease-out">
+            <div>
+              <span aria-hidden="true" class="block font-display text-3xl text-orange/70 leading-none mb-3">&ldquo;</span>
+              <p class="font-display text-sm sm:text-base leading-relaxed tracking-tight"><span class="text-orange">可以看到各優惠券的使用狀況</span>，之後也能依使用情形跟樓管反映，希望增加不同類型的優惠券。</p>
+            </div>
+            <footer class="flex items-center gap-3 mt-4 pt-4 border-t border-paper/10">
+              <span aria-hidden="true" class="w-10 h-10 rounded-full bg-orange/15 text-orange font-display font-bold flex items-center justify-center shrink-0">管</span>
+              <p class="font-display font-bold text-sm">管理者</p>
+            </footer>
+          </blockquote>
+
+          <blockquote data-slide class="shrink-0 min-w-0 w-[82%] sm:w-[62%] lg:w-[50%] rounded-[28px] border px-8 py-6 sm:px-10 sm:py-7 flex flex-col justify-between transition-all duration-500 ease-out">
+            <div>
+              <span aria-hidden="true" class="block font-display text-3xl text-orange/70 leading-none mb-3">&ldquo;</span>
+              <p class="font-display text-sm sm:text-base leading-relaxed tracking-tight"><span class="text-orange">整體使用起來很直覺，沒有太多操作成本</span>，也能快速找到想要的優惠券。</p>
+            </div>
+            <footer class="flex items-center gap-3 mt-4 pt-4 border-t border-paper/10">
+              <span aria-hidden="true" class="w-10 h-10 rounded-full bg-orange/15 text-orange font-display font-bold flex items-center justify-center shrink-0">員</span>
+              <p class="font-display font-bold text-sm">員工</p>
+            </footer>
+          </blockquote>
+
+        </div>
+      </div>
+
+      <div class="flex items-center justify-center gap-3 mt-8">
+        <button type="button" data-carousel-prev aria-label="上一則回饋" class="w-11 h-11 rounded-full border border-paper/20 text-paper flex items-center justify-center transition-colors duration-300 hover:bg-paper/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button type="button" data-carousel-next aria-label="下一則回饋" class="w-11 h-11 rounded-full bg-orange text-paper flex items-center justify-center transition-colors duration-300 hover:bg-orange/85 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-paper">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+    </div>
+</section>
+
+<!-- ============ 08 Next Steps ============ -->
+<section id="next-steps" class="relative bg-[#242424] py-20 md:py-28 scroll-mt-24">
+<div class="max-w-6xl mx-auto px-5 sm:px-8">
+  <div class="mb-10">
+    <div class="flex items-baseline gap-3 mb-2">
+      <span class="stroke-num-dark font-display font-bold text-6xl sm:text-7xl leading-none">08</span>
+      <span class="reveal font-display font-bold text-lg sm:text-xl text-[#DEDEDE]/35 leading-none">Next Steps</span>
+    </div>
+    <h2 class="reveal font-display text-3xl sm:text-4xl font-bold tracking-tight leading-snug max-w-[56rem]">延伸更多服務價值</h2>
+  </div>
+
+  <ol class="space-y-8 max-w-[56rem]">
+    <li class="reveal flex gap-5">
+      <span class="shrink-0 w-9 h-9 rounded-full bg-orange/15 text-orange font-display font-bold flex items-center justify-center mt-0.5">1</span>
+      <p class="font-body text-sm sm:text-base text-[#DEDEDE]/85 leading-relaxed pt-1"><span class="font-display font-bold text-paper">建立優惠券使用狀況儀錶板：</span>視覺化發放、分配與兌換數據，透過圖表掌握成效。</p>
+    </li>
+    <li class="reveal flex gap-5">
+      <span class="shrink-0 w-9 h-9 rounded-full bg-orange/15 text-orange font-display font-bold flex items-center justify-center mt-0.5">2</span>
+      <p class="font-body text-sm sm:text-base text-[#DEDEDE]/85 leading-relaxed pt-1"><span class="font-display font-bold text-paper">擴大商家與企業租戶價值：</span>串聯更多商家與優惠，讓企業依需求選擇適合的福利。</p>
+    </li>
+    <li class="reveal flex gap-5">
+      <span class="shrink-0 w-9 h-9 rounded-full bg-orange/15 text-orange font-display font-bold flex items-center justify-center mt-0.5">3</span>
+      <p class="font-body text-sm sm:text-base text-[#DEDEDE]/85 leading-relaxed pt-1"><span class="font-display font-bold text-paper">導入手機 Wallet 管理優惠券：</span>將優惠券整合至手機 Wallet，讓員工快速查、使用。</p>
+    </li>
+  </ol>
+</div>
+</section>
+
+</div>
+<!-- ============ end 07–08 dark zone ============ -->
+
+</div>
+<!-- ============ end 01–05 dark zone ============ -->
+
+<!-- ============ NEXT PROJECT ============ -->
+<section class="max-w-6xl mx-auto px-5 sm:px-8 py-24 md:py-32 scroll-mt-24">
+  <div class="reveal flex items-center gap-3 mb-8">
+    <span aria-hidden="true" class="w-2 h-2 rounded-sm bg-orange shrink-0"></span>
+    <span class="font-display font-bold text-xs sm:text-sm tracking-widest uppercase text-slate">Next Project</span>
+  </div>
+
+  <a href="../piccollage-redesign/index.html" class="reveal group relative w-full rounded-[32px] overflow-hidden flex flex-col md:flex-row md:h-[420px] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[10px_10px_0_0_rgba(23,23,23,0.9)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">
+    <div class="relative w-full md:w-1/2 aspect-[4/3] md:aspect-auto md:h-full bg-white overflow-hidden">
+      <img src="../piccollage-redesign/Shot%20(1).png" alt="PicCollage redesign app screens" class="w-full h-full object-cover scale-125">
+    </div>
+    <div class="relative w-full md:w-1/2 md:h-full bg-white text-ink flex flex-col justify-center gap-3 px-8 py-10 md:px-10">
+      <span class="inline-flex w-fit items-center rounded-full bg-ink/5 px-4 py-1.5 text-sm font-display font-bold tracking-wide text-ink">UX/UI Designer</span>
+      <h3 class="font-display text-2xl sm:text-3xl md:text-4xl font-bold leading-tight tracking-tight">PicCollage Redesign</h3>
+      <p class="font-body text-base sm:text-lg text-slate leading-relaxed max-w-md">從創作工具到情感連結平台——以主動觸發與情感累積策略，重塑拼貼的長期價值</p>
+      <span aria-hidden="true" class="absolute bottom-6 right-6 md:bottom-8 md:right-8 w-12 h-12 md:w-14 md:h-14 rounded-full bg-ink text-paper flex items-center justify-center transition-transform duration-300 group-hover:translate-x-1">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+      </span>
+    </div>
+  </a>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="border-t border-ink/15">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 py-10 flex flex-col sm:flex-row items-center justify-between gap-6">
+    <a href="../index.html" class="font-display font-bold tracking-tight text-lg">Kelly Chiu</a>
+
+    <span class="text-xs font-medium text-slate">&copy; <span id="year"></span> Kelly Chiu</span>
+  </div>
+</footer>
+
+<div class="cursor-trail-dot" data-trail data-opacity="0.85" style="width:10px;height:10px;opacity:0"></div>
+<div class="cursor-trail-dot" data-trail data-opacity="0.55" style="width:8px;height:8px;opacity:0"></div>
+<div class="cursor-trail-dot" data-trail data-opacity="0.32" style="width:6px;height:6px;opacity:0"></div>
+<div class="cursor-trail-dot" data-trail data-opacity="0.16" style="width:5px;height:5px;opacity:0"></div>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const revealEls = document.querySelectorAll('.reveal');
+
+  if (prefersReduced) {
+    revealEls.forEach(el => el.classList.add('in-view'));
+  } else {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(el => io.observe(el));
+  }
+
+  // Nav sliding hover indicator
+  (function () {
+    const track = document.getElementById('nav-track');
+    const indicator = document.getElementById('nav-indicator');
+    if (!track || !indicator) return;
+    const items = track.querySelectorAll('[data-nav-item]');
+
+    function moveIndicator(el) {
+      const trackRect = track.getBoundingClientRect();
+      const rect = el.getBoundingClientRect();
+      indicator.style.left = (rect.left - trackRect.left) + 'px';
+      indicator.style.width = rect.width + 'px';
+      indicator.style.opacity = '1';
+    }
+
+    items.forEach((item) => {
+      item.addEventListener('mouseenter', () => moveIndicator(item));
+      item.addEventListener('focus', () => moveIndicator(item));
+    });
+    track.addEventListener('mouseleave', () => { indicator.style.opacity = '0'; });
+  })();
+
+  // Fading orange cursor trail (fine pointer + no reduced motion only)
+  (function () {
+    const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    if (!canHover || prefersReduced) return;
+
+    const dots = Array.from(document.querySelectorAll('[data-trail]')).map((el) => ({
+      el, x: 0, y: 0,
+    }));
+    const mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+    let started = false;
+
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      if (!started) {
+        started = true;
+        dots.forEach((d) => {
+          d.x = mouse.x;
+          d.y = mouse.y;
+          d.el.style.opacity = d.el.dataset.opacity;
+        });
+      }
+    });
+
+    function tick() {
+      let targetX = mouse.x;
+      let targetY = mouse.y;
+      dots.forEach((d, i) => {
+        const ease = 0.32 - i * 0.05;
+        d.x += (targetX - d.x) * ease;
+        d.y += (targetY - d.y) * ease;
+        const size = d.el.offsetWidth;
+        d.el.style.transform = `translate(${d.x - size / 2}px, ${d.y - size / 2}px)`;
+        targetX = d.x;
+        targetY = d.y;
+      });
+      requestAnimationFrame(tick);
+    }
+    tick();
+  })();
+
+  // Testimonial carousel: role quotes loop with a cloned slide at each end so there's
+  // always a peek on both sides, centered active card, autoplay every 5s.
+  (function () {
+    const carousel = document.getElementById('testimonial-carousel');
+    if (!carousel) return;
+
+    const track = document.getElementById('testimonial-track');
+    const viewport = document.getElementById('testimonial-viewport');
+    const realSlides = Array.from(track.querySelectorAll('[data-slide]'));
+    const count = realSlides.length;
+    if (count === 0) return;
+
+    const headClone = realSlides[0].cloneNode(true);
+    const tailClone = realSlides[count - 1].cloneNode(true);
+    headClone.removeAttribute('data-slide');
+    tailClone.removeAttribute('data-slide');
+    headClone.setAttribute('aria-hidden', 'true');
+    tailClone.setAttribute('aria-hidden', 'true');
+    track.insertBefore(tailClone, realSlides[0]);
+    track.appendChild(headClone);
+
+    const slides = Array.from(track.children); // [tailClone, ...real, headClone]
+    let index = 1; // start on the first real slide
+
+    const prevBtn = carousel.querySelector('[data-carousel-prev]');
+    const nextBtn = carousel.querySelector('[data-carousel-next]');
+    const GAP = 20; // matches gap-5
+
+    // Mirrors the slide's own w-[82%] sm:w-[62%] lg:w-[50%] classes so the
+    // centering math always matches what's actually on screen at this width.
+    function currentRatio() {
+      if (window.matchMedia('(min-width: 1024px)').matches) return 0.5;
+      if (window.matchMedia('(min-width: 640px)').matches) return 0.62;
+      return 0.82;
+    }
+
+    function render(animate) {
+      if (!animate) {
+        // Disabling the transition and moving the track in the same tick isn't enough:
+        // browsers can coalesce the two style changes and still animate the "jump" using
+        // the old duration. Forcing a reflow commits "no transition" before the jump.
+        // The slides themselves carry a static transition-all class (for their own
+        // active/inactive scale+opacity animation), so it has to be silenced too —
+        // otherwise the clone-to-real swap at the loop boundary still animates.
+        track.style.transition = 'none';
+        slides.forEach((s) => { s.style.transition = 'none'; });
+        void track.offsetHeight;
+      } else {
+        track.style.transition = 'transform 500ms ease-out';
+        slides.forEach((s) => { s.style.transition = ''; });
+      }
+      const viewportWidth = viewport.getBoundingClientRect().width;
+      const slideWidth = viewportWidth * currentRatio();
+      const offset = slideWidth + GAP;
+      const centerInset = (viewportWidth - slideWidth) / 2;
+      track.style.transform = `translateX(${centerInset - index * offset}px)`;
+
+      // Set the width directly rather than trusting the responsive w-[…] classes: once
+      // this script starts toggling classes on these nodes, the Tailwind CDN runtime can
+      // re-inject rules in an order where the wrong breakpoint's width wins the cascade.
+      // An inline style always beats a class, so this keeps JS and the on-screen size in sync.
+      slides.forEach((s) => {
+        s.style.width = `${slideWidth}px`;
+      });
+
+      slides.forEach((s, i) => {
+        const active = i === index;
+        s.classList.toggle('bg-paper/10', active);
+        s.classList.toggle('border-paper/20', active);
+        s.classList.toggle('opacity-100', active);
+        s.classList.toggle('scale-100', active);
+        s.classList.toggle('bg-paper/5', !active);
+        s.classList.toggle('border-paper/5', !active);
+        s.classList.toggle('opacity-50', !active);
+        s.classList.toggle('scale-[0.96]', !active);
+      });
+    }
+
+    let locked = false;
+    function goTo(i) {
+      if (locked) return;
+      locked = true;
+      index = i;
+      render(true);
+      window.setTimeout(() => {
+        if (index === 0 || index === count + 1) {
+          index = index === 0 ? count : 1;
+          render(false);
+        }
+        locked = false;
+      }, 500);
+    }
+
+    let timer = null;
+    function startAutoplay() {
+      if (prefersReduced) return;
+      stopAutoplay();
+      timer = window.setInterval(() => goTo(index + 1), 5000);
+    }
+    function stopAutoplay() {
+      if (timer) {
+        window.clearInterval(timer);
+        timer = null;
+      }
+    }
+
+    prevBtn.addEventListener('click', () => { goTo(index - 1); startAutoplay(); });
+    nextBtn.addEventListener('click', () => { goTo(index + 1); startAutoplay(); });
+    carousel.addEventListener('mouseenter', stopAutoplay);
+    carousel.addEventListener('mouseleave', startAutoplay);
+    window.addEventListener('resize', () => render(false));
+
+    render(false);
+    startAutoplay();
+  })();
+</script>
+
+</body>
+</html>
